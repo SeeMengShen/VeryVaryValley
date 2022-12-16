@@ -46,7 +46,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool moving;
 
         //Animator
-        private Animator animator;
+        public static Animator animator;
 
         //Extract out speed from FixedUpdate
         private float speed;
@@ -116,12 +116,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     m_Camera = firstPersonCamera.GetComponent<Camera>();
                     thirdPersonCamera.SetActive(false);
                 }
-            }
-
-            if(Input.GetKeyDown(KeyCode.Mouse0))
-            {
-
-            }
+            }            
         }
 
         private void PlayLandingSound()
@@ -154,7 +149,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (m_CharacterController.isGrounded)
             {
                 m_MoveDir.y = -m_StickToGroundForce;
-
 
                 if (m_Jump)
                 {

@@ -6,7 +6,6 @@ using TMPro;
 
 public class PlayerSight : MonoBehaviour
 {
-    public TextMeshProUGUI tmpro;
     public RawImage crosshair;
 
     public GameObject head;
@@ -15,6 +14,17 @@ public class PlayerSight : MonoBehaviour
     private GameObject interactable;
     private Item newItem;
     private ItemSlot itemSlot;
+
+    private string textToShow;
+    private const string itemResourceStr = "Items/";
+    private const string collectText = "E to collect";
+    private const string talkText = "E to talk";
+    private const string interactText = "E to interact";
+    private const string lockedInteractText = "E to unlock";
+    private const string itemStr = "Item";
+    private const string npcStr = "NPC";
+    private const string interactableStr = "Interactable";
+    private const string lockedInteractableStr = "LockedInteractable";
 
     // Start is called before the first frame update
     void Start()
@@ -35,11 +45,18 @@ public class PlayerSight : MonoBehaviour
             {
                 switch (interactable.tag)
                 {
-                    case "Item":
+                    case itemStr:
                         Collect();
+                        hit.collider.gameObject.GetComponent<Collectable>().Collected();
                         break;
-                    case "NPC":
+                    case npcStr:
                         interactable.GetComponent<NPC>().Talk();
+                        break;
+                    case interactableStr:
+                        interactable.GetComponent<Interactable>().Open();
+                        break;
+                    case lockedInteractableStr:
+                        interactable.GetComponent<Interactable>().PasswordLock();
                         break;
                     default:
                         break;
@@ -48,11 +65,10 @@ public class PlayerSight : MonoBehaviour
         }
         else
         {
+            textToShow = string.Empty;
+            GameController.ShowText(textToShow, false);
             crosshair.color = Color.cyan;
         }
-
-        Vector3 forward = transform.TransformDirection(Vector3.forward) * 3f;
-        Debug.DrawRay(head.transform.position, transform.forward, Color.green);
 
         /*Physics.Raycast(transform.position, transform.forward, out hit, 10.0f, rayMask);
         Ray ray = c.ScreenPointToRay(screenPosition);
@@ -61,21 +77,34 @@ public class PlayerSight : MonoBehaviour
 
     private void CheckInteractable(string objectTag)
     {
-        if (objectTag == "Item")
+        if (objectTag == itemStr)
         {
-            tmpro.text = "E to collect";
+            textToShow = collectText;
+        }
+        else if(objectTag == npcStr)
+        {
+             textToShow = talkText;
+        }
+        else if(objectTag == interactableStr)
+        {
+            textToShow = interactText;
+        }
+        else if(objectTag == lockedInteractableStr)
+        {
+            textToShow = lockedInteractText;
         }
         else
         {
-            tmpro.text = "E to talk";
+            textToShow = string.Empty;
         }
 
+        GameController.ShowText(textToShow, false);
         crosshair.color = Color.magenta;
     }
 
     private void Collect()
     {
-        newItem = (Item)Resources.Load("Items/" + hit.collider.gameObject.name);
+        newItem = (Item)Resources.Load(itemResourceStr + hit.collider.gameObject.name);
 
         if (!ItemBar.CheckExistence(newItem))
         {

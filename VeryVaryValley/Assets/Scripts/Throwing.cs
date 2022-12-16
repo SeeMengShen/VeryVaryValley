@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class ThrowingTutorial : MonoBehaviour
+public class Throwing : MonoBehaviour
 {
     private FirstPersonController fpc;
 
@@ -23,12 +23,13 @@ public class ThrowingTutorial : MonoBehaviour
     [Header("Throwing")]
     public KeyCode throwKey = KeyCode.Mouse0;
     public float throwForce;
-    public float throwUpwardForce;
-
-    bool readyToThrow;
+    //public float throwUpwardForce;
 
     private string notThrowable;
     private string throwablePrefabPath;
+    private string throwingAnimBool;
+
+    private bool readyToThrow;
 
     private void Start()
     {
@@ -42,9 +43,10 @@ public class ThrowingTutorial : MonoBehaviour
     {
         UpdateSelectingItem();
 
-        if (Input.GetKeyDown(throwKey) && readyToThrow && quantity > 0)
+        if (Input.GetKeyDown(throwKey) && readyToThrow && quantity > 1)
         {
-            Throw();
+            StartCoroutine(ThrowDelay());
+            readyToThrow = false;
         }
 
         if(fpc.firstPersonCamera.activeInHierarchy)
@@ -61,11 +63,9 @@ public class ThrowingTutorial : MonoBehaviour
     {
         if (!IsThrowable())
         {
-            GameController.ShowThreeSecondText(notThrowable);
+            GameController.ShowText(notThrowable, true);
             return;
         }
-
-        readyToThrow = false;
 
         // instantiate object to throw
         GameObject projectile = Instantiate(objectToThrow, attackPoint.position, cam.rotation);
@@ -76,16 +76,16 @@ public class ThrowingTutorial : MonoBehaviour
         // calculate direction
         Vector3 forceDirection = cam.transform.forward;
 
-        RaycastHit hit;
+        /*RaycastHit hit;
 
         if(Physics.Raycast(cam.position, cam.forward, out hit, 5f))
         {
             //forceDirection = (hit.point - attackPoint.position).normalized;
             Debug.Log(hit.collider.name);
-        }        
+        }*/
 
         // add force
-        Vector3 forceToAdd = forceDirection * throwForce + transform.up * throwUpwardForce;
+        Vector3 forceToAdd = forceDirection * throwForce;// + transform.up * throwUpwardForce;
 
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
         //projectileRb.velocity = transform.TransformDirection(throwingForce);
@@ -101,19 +101,31 @@ public class ThrowingTutorial : MonoBehaviour
     private void ResetThrow()
     {
         readyToThrow = true;
+        FirstPersonController.animator.SetBool(throwingAnimBool, false);
     }
 
     IEnumerator Cooldown()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(throwCooldown);
         ResetThrow();
+    }
+
+    IEnumerator ThrowDelay()
+    {
+        FirstPersonController.animator.SetBool(throwingAnimBool, true);
+        yield return new WaitForSeconds(0.7f);
+        Throw();
     }
 
     public void UpdateSelectingItem()
     {
         selectingItemSlot = ItemBar.itemSlots[ItemBar.selectIndex];
         quantity = selectingItemSlot.quantity;
-        objectToThrow = (GameObject)Resources.Load(throwablePrefabPath + selectingItemSlot.item.name);
+
+        if(selectingItemSlot.item.throwable)
+        {
+            objectToThrow = (GameObject)Resources.Load(throwablePrefabPath + selectingItemSlot.item.name);
+        }
     }
 
     private bool IsThrowable()
@@ -130,5 +142,6 @@ public class ThrowingTutorial : MonoBehaviour
     {
         notThrowable = "This is not a throwable item!";
         throwablePrefabPath = "Throwabale Item Prefab/";
+        throwingAnimBool = "throwing";
     }
 }
