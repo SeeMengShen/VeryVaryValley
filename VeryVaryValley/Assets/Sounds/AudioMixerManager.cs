@@ -7,11 +7,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class AudioMixerManager : MonoBehaviour {
 
+    public static AudioMixerManager Instance = null;
+
     public const string MASTER_NAME = "Master";
     public const string BACKGROUND_NAME = "Background";
     public const string EFFECT_NAME = "Effect";
-
-    
 
     public Slider masterSlider;
     public Slider backgroundSlider;
@@ -20,14 +20,21 @@ public class AudioMixerManager : MonoBehaviour {
 
     public AudioMixer audioMixer;
 
-    private static bool firstTimeEnterSetting = true;
+    void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        }
+        else if (Instance != this) {
+            Destroy(gameObject);
+        }
+    }
 
     void Start() {
-        //got bug
-        Debug.Log(GameManager.masterVolume);
-        masterSlider.value = Mathf.Log(GameManager.masterVolume) * 20.0f;
-        backgroundSlider.value = Mathf.Log(GameManager.backgroundVolume) * 20.0f;
-        effectSlider.value = Mathf.Log(GameManager.effectVolume) * 20.0f;
+        //always get value from game manager
+        masterSlider.value = GameManager.Instance.masterVolume;
+        backgroundSlider.value = GameManager.Instance.backgroundVolume;
+        effectSlider.value = GameManager.Instance.effectVolume;
+        muteToggle.isOn = GameManager.Instance.muteToggleIsOn;
     }
 
     public void SetValue(string audioGroup) {
@@ -36,35 +43,42 @@ public class AudioMixerManager : MonoBehaviour {
         if (muteToggle.isOn) return;
 
         //see which slider is changed and get the value
+        //also change the value in game manager so that the slider value can be stored
         float value;
         switch (audioGroup) {
-            case MASTER_NAME: 
+            case MASTER_NAME:
                 value = masterSlider.value;
-                GameManager.masterVolume = masterSlider.value; break;
-            case BACKGROUND_NAME: 
+                GameManager.Instance.masterVolume = masterSlider.value; break;
+            case BACKGROUND_NAME:
                 value = backgroundSlider.value;
-                GameManager.backgroundVolume = backgroundSlider.value; break;
+                GameManager.Instance.backgroundVolume = backgroundSlider.value; break;
             case EFFECT_NAME:
                 value = effectSlider.value;
-                GameManager.effectVolume = effectSlider.value; break;
+                GameManager.Instance.effectVolume = effectSlider.value; break;
             default: return;
         }
 
-       //change the audio mixer, log is to make the volume look nicer
+        //change the audio mixer, log is to make the volume look nicer
         audioMixer.SetFloat(audioGroup, Mathf.Log(value) * 20.0f);
     }
 
     public void MuteMaster() {
+
+        //if toggle is on (mute)
         if (muteToggle.isOn) {
             audioMixer.SetFloat(MASTER_NAME, -80.0f);
             audioMixer.SetFloat(BACKGROUND_NAME, -80.0f);
             audioMixer.SetFloat(EFFECT_NAME, -80.0f);
         }
+        //if toggle is off (no mute)
         else {
             audioMixer.SetFloat(MASTER_NAME, Mathf.Log(masterSlider.value) * 20.0f);
             audioMixer.SetFloat(BACKGROUND_NAME, Mathf.Log(backgroundSlider.value) * 20.0f);
             audioMixer.SetFloat(EFFECT_NAME, Mathf.Log(effectSlider.value) * 20.0f);
         }
+
+        //change the value in game manager
+        GameManager.Instance.muteToggleIsOn = muteToggle.isOn;
     }
 
 }
