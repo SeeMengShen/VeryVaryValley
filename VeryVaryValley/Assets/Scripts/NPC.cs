@@ -5,6 +5,7 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     public string words;
+    public TextAsset dialogue;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,9 @@ public class NPC : MonoBehaviour
 
     public void Talk()
     {
-        Debug.Log(words);
+        GameController.Instance.AssignDialogue(dialogue);
+        GameController.Instance.dialogueController.ResetAndStart();
+        GameController.Instance.ActivateDialogue(true);
+        GameController.Instance.fpc.m_MouseLook.SetCursorLock(false);
     }
 }

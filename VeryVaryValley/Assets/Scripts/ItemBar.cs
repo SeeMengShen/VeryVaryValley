@@ -5,22 +5,25 @@ using TMPro;
 
 public class ItemBar : MonoBehaviour
 {
-    public static List<ItemSlot> itemSlots;
-    public static GameObject selecting;
-    public static int selectIndex;
+    public static ItemBar Instance = null;
 
-    public static Item emptyItem;
+    public List<ItemSlot> itemSlots;
+    public GameObject selecting;
+    public int selectIndex = 0;
+
+    public Item emptyItem;
 
     public TextMeshProUGUI itemText;
 
-    public static ItemBar instance = null;
+    private Vector3 textPosition = new Vector3(180.0f, -50f, 0.0f);
+
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
@@ -28,7 +31,7 @@ public class ItemBar : MonoBehaviour
 
     void Start()
     {
-        itemSlots = new List<ItemSlot>();
+        /*itemSlots = new List<ItemSlot>();
 
         for(int i = 0; i < 10; i++)
         {
@@ -37,9 +40,9 @@ public class ItemBar : MonoBehaviour
 
         emptyItem = (Item)Resources.Load("Items/Empty");
 
-        selecting = transform.GetChild(11).gameObject;
+        selecting = transform.GetChild(11).gameObject;*/
 
-        foreach(ItemSlot itemSlot in itemSlots)
+        foreach (ItemSlot itemSlot in itemSlots)
         {
             itemSlot.item = emptyItem;
         }
@@ -78,7 +81,7 @@ public class ItemBar : MonoBehaviour
         UpdateItemText();
     }
 
-    public static bool CheckExistence(Item newItem)
+    public bool CheckExistence(Item newItem)
     {
         foreach(ItemSlot itemSlot in itemSlots)
         {
@@ -91,7 +94,7 @@ public class ItemBar : MonoBehaviour
         return false;
     }
 
-    public static int GetSlotIndex(Item newItem)
+    public int GetSlotIndex(Item newItem)
     {
         for(int i = 0; i < itemSlots.Count - 1; i++)
         {
@@ -104,7 +107,7 @@ public class ItemBar : MonoBehaviour
         return -1;
     }
 
-    public static ItemSlot GetFirstEmptySlot()
+    public ItemSlot GetFirstEmptySlot()
     {
         for(int i = 0; i < itemSlots.Count - 1; i++)
         {
@@ -119,8 +122,8 @@ public class ItemBar : MonoBehaviour
 
     public void UpdateItemText()
     {
-        //itemText.rectTransform.position = itemSlots[selectIndex].transform.parent.position;
-        itemText.rectTransform.anchoredPosition = new Vector3(180.0f, -((selectIndex) * 100f) - 50f, 0);
+        textPosition.Set(180.0f, -((selectIndex) * 100f) - 50f, 0);
+        itemText.rectTransform.anchoredPosition = textPosition;
         itemText.text = itemSlots[selectIndex].item.itemName;
     }
 }

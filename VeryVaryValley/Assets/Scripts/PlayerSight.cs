@@ -10,6 +10,8 @@ public class PlayerSight : MonoBehaviour
 
     public GameObject head;
 
+    public Using player;
+
     private RaycastHit hit;
     private GameObject interactable;
     private Item newItem;
@@ -20,11 +22,9 @@ public class PlayerSight : MonoBehaviour
     private const string collectText = "E to collect";
     private const string talkText = "E to talk";
     private const string interactText = "E to interact";
-    private const string lockedInteractText = "E to unlock";
     private const string itemStr = "Item";
     private const string npcStr = "NPC";
     private const string interactableStr = "Interactable";
-    private const string lockedInteractableStr = "LockedInteractable";
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,12 @@ public class PlayerSight : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {        
+    {   
+        if(GameController.Instance.stopControl)
+        {
+            return;
+        }
+
         if (Physics.Raycast(head.transform.position, transform.forward, out hit, 3.0f, 3))
         {
             interactable = hit.collider.gameObject;
@@ -55,9 +60,6 @@ public class PlayerSight : MonoBehaviour
                     case interactableStr:
                         interactable.GetComponent<Interactable>().Open();
                         break;
-                    case lockedInteractableStr:
-                        interactable.GetComponent<Interactable>().PasswordLock();
-                        break;
                     default:
                         break;
                 }
@@ -66,7 +68,7 @@ public class PlayerSight : MonoBehaviour
         else
         {
             textToShow = string.Empty;
-            GameController.ShowText(textToShow, false);
+            GameController.Instance.ShowHintText(textToShow);
             crosshair.color = Color.cyan;
         }
 
@@ -89,16 +91,12 @@ public class PlayerSight : MonoBehaviour
         {
             textToShow = interactText;
         }
-        else if(objectTag == lockedInteractableStr)
-        {
-            textToShow = lockedInteractText;
-        }
         else
         {
             textToShow = string.Empty;
         }
 
-        GameController.ShowText(textToShow, false);
+        GameController.Instance.ShowHintText(textToShow);
         crosshair.color = Color.magenta;
     }
 
@@ -106,13 +104,29 @@ public class PlayerSight : MonoBehaviour
     {
         newItem = (Item)Resources.Load(itemResourceStr + hit.collider.gameObject.name);
 
-        if (!ItemBar.CheckExistence(newItem))
+        if (!ItemBar.Instance.CheckExistence(newItem))
         {
-            itemSlot = ItemBar.GetFirstEmptySlot();
+            itemSlot = ItemBar.Instance.GetFirstEmptySlot();
         }
         else
         {
-            itemSlot = ItemBar.itemSlots[ItemBar.GetSlotIndex(newItem)];
+            itemSlot = ItemBar.Instance.itemSlots[ItemBar.Instance.GetSlotIndex(newItem)];
+        }
+
+        itemSlot.AddSlotContent(newItem);
+    }
+
+    public void Collect(GameObject toCollect)
+    {
+        newItem = (Item)Resources.Load(itemResourceStr + toCollect.name);
+
+        if (!ItemBar.Instance.CheckExistence(newItem))
+        {
+            itemSlot = ItemBar.Instance.GetFirstEmptySlot();
+        }
+        else
+        {
+            itemSlot = ItemBar.Instance.itemSlots[ItemBar.Instance.GetSlotIndex(newItem)];
         }
 
         itemSlot.AddSlotContent(newItem);

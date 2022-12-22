@@ -31,7 +31,7 @@ public class Collectable : MonoBehaviour
         {
             if (unlimited)
             {
-                GameController.ResetCollectable(gameObject);
+                GameController.Instance.ResetCollectable(gameObject);
             }
             else
             {
