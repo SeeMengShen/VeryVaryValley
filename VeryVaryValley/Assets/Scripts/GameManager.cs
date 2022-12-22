@@ -44,12 +44,18 @@ public class GameManager : MonoBehaviour {
     void Awake() {
         if (Instance == null) {
             Instance = this;
-        }       
+        }
         else if (Instance != this) {
             Destroy(gameObject);
             gameHasInitialized = true;
         }
 
+
+
+
+    }
+
+    void Start() {
         if (!gameHasInitialized) {
 
             //dont destory game manager and ui manager
@@ -57,11 +63,11 @@ public class GameManager : MonoBehaviour {
             DontDestroyOnLoadList(dontDestroyList);
 
             //play background music
+            
             AudioManager.Instance.PlayBackgroundMusic();
+
             gameHasInitialized = true;
         }
-
-
     }
 
     private static UnityEngine.SceneManagement.Scene GetActiveScene() {

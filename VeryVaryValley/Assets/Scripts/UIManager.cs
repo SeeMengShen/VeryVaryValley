@@ -24,9 +24,16 @@ public class UIManager : MonoBehaviour {
         Debug.Log("Quit");
     }
 
+    public void PlayButtonPressed() {
+        
+        levelToLoad = "CutsceneScene";
+        GameManager.LoadScene(levelToLoad);
+        Destroy(GameObject.Find("MenuCamera"));
+    }
+
     public void QuitButtonPressed() {
         levelToLoad = "Quit";
-       Instance.StartCoroutine(Wait(waitSeconds));
+        Instance.StartCoroutine(Wait(waitSeconds));
     }
 
     public void SettingsButtonPressed() {
@@ -38,6 +45,7 @@ public class UIManager : MonoBehaviour {
         levelToLoad = "HowToPlayScene";
         GameManager.LoadScene(levelToLoad);
     }
+
 
     public void GoToPreviousScene() {
 

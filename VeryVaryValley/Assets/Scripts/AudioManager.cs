@@ -24,6 +24,7 @@ public class AudioManager : MonoBehaviour {
 
     //play background music
     public void PlayBackgroundMusic() {
+        Debug.Log(backgroundAudio.clip.name);
         backgroundAudio.Play();
     }
 
