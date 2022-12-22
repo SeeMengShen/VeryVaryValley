@@ -7,7 +7,6 @@ TagManager:
   - Item
   - NPC
   - Interactable
-  - LockedInteractable
   - Bush
   - Trash
   layers:

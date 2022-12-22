@@ -41,14 +41,13 @@ public class ItemSlot : MonoBehaviour
 
     public void MinusSlotContent()
     {
-        if(quantity > 0)
+        if(quantity > 1)
         {
-            quantity--;
             quantityText.text = quantity.ToString();
         }
         else
         {
-            item = ItemBar.emptyItem;
+            item = ItemBar.Instance.emptyItem;
 
             icon.enabled = false;
             icon.sprite = item.icon;
@@ -57,5 +56,7 @@ public class ItemSlot : MonoBehaviour
 
             quantityText.text = string.Empty;
         }
+
+        quantity--;
     }
 }

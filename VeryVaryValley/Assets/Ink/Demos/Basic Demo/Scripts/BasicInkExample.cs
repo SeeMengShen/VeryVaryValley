@@ -10,6 +10,11 @@ public class BasicInkExample : MonoBehaviour {
     void Awake () {
 		// Remove the default message
 		RemoveChildren();
+	}
+
+	public void ResetAndStart()
+    {
+		RemoveChildren();
 		StartStory();
 	}
 
@@ -50,9 +55,13 @@ public class BasicInkExample : MonoBehaviour {
 		}
 		// If we've read all the content and there's no choices, the story is finished!
 		else {
-			Button choice = CreateChoiceView("End of story.\nRestart?");
+			Button choice = CreateChoiceView("End conversation");
 			choice.onClick.AddListener(delegate{
-				StartStory();
+				//END STORY HERE
+				GameController.Instance.ActivateDialogue(false);
+				GameController.Instance.AssignDialogue(null);
+				GameController.Instance.fpc.m_MouseLook.SetCursorLock(true);
+				return;
 			});
 		}
 	}
@@ -96,7 +105,7 @@ public class BasicInkExample : MonoBehaviour {
 	}
 
 	[SerializeField]
-	private TextAsset inkJSONAsset = null;
+	public TextAsset inkJSONAsset = null;
 	public Story story;
 
 	[SerializeField]
