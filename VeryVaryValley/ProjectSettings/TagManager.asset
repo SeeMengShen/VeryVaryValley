@@ -8,6 +8,8 @@ TagManager:
   - NPC
   - Interactable
   - LockedInteractable
+  - Bush
+  - Trash
   layers:
   - Default
   - TransparentFX

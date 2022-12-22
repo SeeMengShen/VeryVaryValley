@@ -26,11 +26,16 @@ public class UIManager : MonoBehaviour {
 
     public void QuitButtonPressed() {
         levelToLoad = "Quit";
-        StartCoroutine(Wait(waitSeconds));
+       Instance.StartCoroutine(Wait(waitSeconds));
     }
 
-    public void SettingButtonPressed() {
-        levelToLoad = "SettingScene";
+    public void SettingsButtonPressed() {
+        levelToLoad = "SettingsScene";
+        GameManager.LoadScene(levelToLoad);
+    }
+
+    public void HowToPlayButtonPressed() {
+        levelToLoad = "HowToPlayScene";
         GameManager.LoadScene(levelToLoad);
     }
 

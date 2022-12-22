@@ -142,9 +142,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MoveDir.z = desiredMove.z * speed;
 
             //Animator
-            animator.SetBool("walking", moving);
+/*            animator.SetBool("walking", moving);
             animator.SetBool("jumping", m_Jump);
-            animator.SetBool("running", !m_IsWalking);
+            animator.SetBool("running", !m_IsWalking);*/
 
             if (m_CharacterController.isGrounded)
             {
