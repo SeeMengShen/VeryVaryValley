@@ -24,15 +24,28 @@ public class UIManager : MonoBehaviour {
         Debug.Log("Quit");
     }
 
-    public void QuitButtonPressed() {
-        levelToLoad = "Quit";
-        StartCoroutine(Wait(waitSeconds));
+    public void PlayButtonPressed() {
+        
+        levelToLoad = "CutsceneScene";
+        GameManager.LoadScene(levelToLoad);
+        Destroy(GameObject.Find("MenuCamera"));
     }
 
-    public void SettingButtonPressed() {
-        levelToLoad = "SettingScene";
+    public void QuitButtonPressed() {
+        levelToLoad = "Quit";
+        Instance.StartCoroutine(Wait(waitSeconds));
+    }
+
+    public void SettingsButtonPressed() {
+        levelToLoad = "SettingsScene";
         GameManager.LoadScene(levelToLoad);
     }
+
+    public void HowToPlayButtonPressed() {
+        levelToLoad = "HowToPlayScene";
+        GameManager.LoadScene(levelToLoad);
+    }
+
 
     public void GoToPreviousScene() {
 

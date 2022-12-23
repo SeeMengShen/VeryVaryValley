@@ -15,17 +15,25 @@ public class GameManager : MonoBehaviour {
     public static Stack<string> stackHistory = new Stack<string>();
 
     //volume, max = 1, min = 0.0184
-    public  float masterVolume= 1.0f;
-    public  float backgroundVolume = 1.0f;
-    public  float effectVolume= 1.0f;
-    public  bool muteToggleIsOn= false; 
+    public float masterVolume = 1.0f;
+    public float backgroundVolume = 1.0f;
+    public float effectVolume = 1.0f;
+    public bool muteToggleIsOn = false;
 
     //menu camera (background)
     //the camera that is used to capture the background of the menu and setting
     public Transform followingObject;
 
 
-    private static bool gameHasInitialized = false;
+    private bool gameHasInitialized = false;
+
+    public bool GameHasInitialized {
+        get {
+            return gameHasInitialized;
+        }
+    }
+
+
 
     //USE THIS LOAD SCENE AND DONT USE SCENE MANAGER
     public static void LoadScene(string sceneName) {
@@ -39,21 +47,25 @@ public class GameManager : MonoBehaviour {
         }
         else if (Instance != this) {
             Destroy(gameObject);
+            gameHasInitialized = true;
         }
 
-        if (!gameHasInitialized) {
-            string UIManager = "UIManager";
-            string MenuCamera = "MenuCamera";
 
+
+
+    }
+
+    void Start() {
+        if (!gameHasInitialized) {
 
             //dont destory game manager and ui manager
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(GameObject.Find(UIManager));
-            DontDestroyOnLoad(GameObject.Find(MenuCamera));
+            string[] dontDestroyList = new string[] { "UIManager", "MenuCamera", "Terrain", "AudioManager" };
+            DontDestroyOnLoadList(dontDestroyList);
 
             //play background music
-            AudioSource audio = GetComponent<AudioSource>();
-            audio.Play();
+            
+            AudioManager.Instance.PlayBackgroundMusic();
+
             gameHasInitialized = true;
         }
     }
@@ -62,4 +74,14 @@ public class GameManager : MonoBehaviour {
         return UnityEngine.SceneManagement.SceneManager.GetActiveScene();
     }
 
+
+    private void DontDestroyOnLoadList(string[] gameObjectList) {
+
+        DontDestroyOnLoad(gameObject);
+
+        foreach (string gameObjectElement in gameObjectList) {
+            DontDestroyOnLoad(GameObject.Find(gameObjectElement));
+        }
+
+    }
 }
