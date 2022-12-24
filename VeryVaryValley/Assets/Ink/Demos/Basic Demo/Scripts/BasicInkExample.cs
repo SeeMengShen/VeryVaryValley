@@ -6,7 +6,7 @@ using Ink.Runtime;
 // This is a super bare bones example of how to play and display a ink story in Unity.
 public class BasicInkExample : MonoBehaviour {
     public static event Action<Story> OnCreateStory;
-	
+
     void Awake () {
 		// Remove the default message
 		RemoveChildren();
@@ -47,6 +47,7 @@ public class BasicInkExample : MonoBehaviour {
 			for (int i = 0; i < story.currentChoices.Count; i++) {
 				Choice choice = story.currentChoices [i];
 				Button button = CreateChoiceView (choice.text.Trim ());
+
 				// Tell the button what to do when we press it
 				button.onClick.AddListener (delegate {
 					OnClickChoiceButton (choice);
@@ -56,11 +57,21 @@ public class BasicInkExample : MonoBehaviour {
 		// If we've read all the content and there's no choices, the story is finished!
 		else {
 			Button choice = CreateChoiceView("End conversation");
+
 			choice.onClick.AddListener(delegate{
 				//END STORY HERE
 				GameController.Instance.ActivateDialogue(false);
 				GameController.Instance.AssignDialogue(null);
 				GameController.Instance.fpc.m_MouseLook.SetCursorLock(true);
+
+				if(GameController.Instance.currentQuest != null)
+                {
+					if (GameController.Instance.acceptQuest)
+					{
+						GameController.Instance.questPanel.alpha = 1.0f;
+						GameController.Instance.questPanel.blocksRaycasts = true;
+					}
+				}
 				return;
 			});
 		}
@@ -69,6 +80,16 @@ public class BasicInkExample : MonoBehaviour {
 	// When we click the choice button, tell the story to choose that choice!
 	void OnClickChoiceButton (Choice choice) {
 		story.ChooseChoiceIndex (choice.index);
+
+		if(choice.index == 0)
+        {
+			GameController.Instance.UpdateAcceptQuest(true);
+        }
+        else
+        {
+			GameController.Instance.UpdateAcceptQuest(false);
+		}
+
 		RefreshView();
 	}
 

@@ -31,9 +31,18 @@ public class GameController : MonoBehaviour
 
     public CanvasGroup map;
 
+    public Quest currentQuest;
+    public CanvasGroup questPanel;
+    public TextMeshProUGUI questTitle;
+    public TextMeshProUGUI questDesc;
+    public TextMeshProUGUI questProgressStr;
+    public TextMeshProUGUI questStatus;
+    public bool acceptQuest = true;
+
     public bool stopControl;
 
-    //public bool lockCursor = true;
+    private string doneStr = "Done";
+    private string inProgStr = "In Progress";
 
     void Awake()
     {
@@ -64,7 +73,7 @@ public class GameController : MonoBehaviour
 
         if(showMap)
         {
-            map.alpha = 0.75f;
+            map.alpha = 1.0f;
         }
         else
         {
@@ -179,5 +188,52 @@ public class GameController : MonoBehaviour
         dialoguePanel.interactable = active;
 
         stopControl = active;
+    }
+
+    public void InitQuest(Quest quest)
+    {
+        if(quest == null)
+        {
+            return;
+        }
+
+        currentQuest = quest;
+        questTitle.text = quest.questTitle;
+        questDesc.text = quest.questDesc;
+        questProgressStr.text = quest.questProgressStr;
+        UpdateQuestStatus(false);
+    }
+
+    public void UpdateAcceptQuest(bool accept)
+    {
+        acceptQuest = accept;
+    }
+
+    public void UpdateQuestProgressUI(string text)
+    {
+        questProgressStr.text = text;
+    }
+
+    public void UpdateQuestStatus(bool done)
+    {
+        if(done)
+        {
+            questProgressStr.color = Color.green;
+            questStatus.text = doneStr;
+
+            Instance.StartCoroutine(HideQuestPanel());
+        }
+        else
+        {
+            questProgressStr.color = Color.white;
+            questStatus.text = inProgStr;
+        }        
+    }
+
+    IEnumerator HideQuestPanel()
+    {
+        yield return new WaitForSeconds(5.0f);
+        questPanel.alpha = 0.0f;
+        questPanel.blocksRaycasts = false;
     }
 }

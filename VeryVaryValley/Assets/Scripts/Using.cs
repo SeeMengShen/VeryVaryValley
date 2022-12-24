@@ -65,6 +65,12 @@ public class Using : MonoBehaviour
             {
                 if (!IsEmpty())
                 {
+                    if (!IsUsable())
+                    {
+                        GameController.Instance.ShowWarningText(notUsable);
+                        return;
+                    }
+
                     if (readyToUse)
                     {
                         Use(CheckPointing());
@@ -157,7 +163,7 @@ public class Using : MonoBehaviour
 
     private bool IsUsable()
     {
-        if (!selectingItemSlot.item.throwable)
+        if (selectingItemSlot.item.usable)
         {
             return true;
         }

@@ -24,6 +24,7 @@ public class PlayerSight : MonoBehaviour
     private const string interactText = "E to interact";
     private const string itemStr = "Item";
     private const string npcStr = "NPC";
+    private const string questStr = "Quest";
     private const string interactableStr = "Interactable";
 
     // Start is called before the first frame update
@@ -60,6 +61,14 @@ public class PlayerSight : MonoBehaviour
                     case interactableStr:
                         interactable.GetComponent<Interactable>().Open();
                         break;
+                    case questStr:
+                        if(!ItemBar.Instance.itemSlots[ItemBar.Instance.selectIndex].item.throwable && 
+                            !ItemBar.Instance.itemSlots[ItemBar.Instance.selectIndex].item.usable)
+                        {
+                            //interactable.GetComponent<Quest>().
+                        }
+                        break;
+
                     default:
                         break;
                 }
@@ -114,6 +123,11 @@ public class PlayerSight : MonoBehaviour
         }
 
         itemSlot.AddSlotContent(newItem);
+
+        if(!newItem.throwable && !newItem.usable)                       // Not throwable and not usable (Quest Item)
+        {
+            hit.collider.gameObject.GetComponent<QuestItem>().Take();
+        }
     }
 
     public void Collect(GameObject toCollect)

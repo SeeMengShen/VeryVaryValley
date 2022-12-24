@@ -102,7 +102,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
 
             //Toggle Camera View
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.Tab))
             {                
                 if(firstPersonCamera.activeInHierarchy)
                 {

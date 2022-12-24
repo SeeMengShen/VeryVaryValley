@@ -49,17 +49,14 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
             gameHasInitialized = true;
         }
-
-
-
-
     }
 
     void Start() {
         if (!gameHasInitialized) {
 
             //dont destory game manager and ui manager
-            string[] dontDestroyList = new string[] { "UIManager", "MenuCamera", "Terrain", "AudioManager" };
+            //string[] dontDestroyList = new string[] { "UIManager", "MenuCamera", "Terrain", "AudioManager" };
+            string[] dontDestroyList = new string[] { "UIManager", "AudioManager" };
             DontDestroyOnLoadList(dontDestroyList);
 
             //play background music
