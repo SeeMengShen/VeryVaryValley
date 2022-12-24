@@ -66,9 +66,9 @@ public class Throwing : MonoBehaviour
             readyToThrow = false;
         }*/
 
-        if (Input.GetKey(throwKey))
+        if (Input.GetKeyDown(throwKey))
         {
-            if (!IsThrowable() && !IsEmpty())
+            if (!ItemBar.Instance.IsHoldingThrowable() && !ItemBar.Instance.IsHoldingEmpty())
             {
                 GameController.Instance.ShowWarningText(notThrowable);
                 return;
@@ -88,7 +88,7 @@ public class Throwing : MonoBehaviour
         }
         else if (Input.GetKeyUp(throwKey))
         {
-            if (IsThrowable())
+            if (ItemBar.Instance.IsHoldingThrowable())
             {
                 if (readyToThrow && quantity >= 1)
                 {
@@ -165,7 +165,7 @@ public class Throwing : MonoBehaviour
 
     public void UpdateSelectingItem()
     {
-        selectingItemSlot = ItemBar.Instance.itemSlots[ItemBar.Instance.selectIndex];
+        selectingItemSlot = ItemBar.Instance.GetSelectingItemSlot();
         quantity = selectingItemSlot.quantity;
 
         if (selectingItemSlot.item.throwable)
@@ -176,26 +176,6 @@ public class Throwing : MonoBehaviour
         {
             objectToThrow = null;
         }
-    }
-
-    private bool IsThrowable()
-    {
-        if (selectingItemSlot.item.throwable)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool IsEmpty()
-    {
-        if (selectingItemSlot.item == ItemBar.Instance.emptyItem)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private void InitText()

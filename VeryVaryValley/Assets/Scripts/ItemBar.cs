@@ -126,4 +126,40 @@ public class ItemBar : MonoBehaviour
         itemText.rectTransform.anchoredPosition = textPosition;
         itemText.text = itemSlots[selectIndex].item.itemName;
     }
+
+    public ItemSlot GetSelectingItemSlot()
+    {
+        return itemSlots[selectIndex];
+    }
+
+    public Item GetHoldingItem()
+    {
+        return itemSlots[selectIndex].item;
+    }
+
+    public bool IsHoldingEmpty()
+    {
+        if (itemSlots[selectIndex].item == emptyItem)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsHoldingThrowable()
+    {
+        return GetHoldingItem().throwable;
+    }
+
+    public bool IsHoldingUsable()
+    {
+        return GetHoldingItem().usable;
+    }
+
+    public bool IsHoldingQuestItem()
+    {
+        return !IsHoldingThrowable() && !IsHoldingUsable() && !IsHoldingEmpty();
+    }
+
 }

@@ -8,6 +8,7 @@ public class FloatingTrash : MonoBehaviour {
     public int maxTimeInterval = 599;
 
     public float speed = 0.15f;
+    public GameObject[] trashObj;
     List<Trash> trashList = new List<Trash>();
 
     private class Trash {
@@ -32,15 +33,7 @@ public class FloatingTrash : MonoBehaviour {
             Destroy(gameObject);
         }
 
-
-
-
-
-        string TrashName = "Trash";
-        GameObject[] trashesTemp = GameObject.FindGameObjectsWithTag(TrashName);
-
-
-        foreach (GameObject trashTemp in trashesTemp) {
+        foreach (GameObject trashTemp in trashObj) {
             trashList.Add(
                 new Trash(trashTemp, Random.Range(minTimeInterval, maxTimeInterval), RangeBoolean())
                 );
@@ -56,6 +49,12 @@ public class FloatingTrash : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         foreach (var trash in trashList) {
+            if(trash.trash == null)
+            {
+                trashList.Remove(trash);
+                break;
+            }
+
             if (trash.isGoingUp) {
                 trash.trash.transform.Translate(Vector3.up * speed * Time.deltaTime, Space.World);
             }
@@ -70,10 +69,6 @@ public class FloatingTrash : MonoBehaviour {
                 trash.isGoingUp = !trash.isGoingUp;
                 
             }
-
-
-
-
         }
     }
 

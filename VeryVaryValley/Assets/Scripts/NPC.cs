@@ -5,8 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class NPC : MonoBehaviour
 {
-    public TextAsset dialogue;
-    public Quest quest;
+    public TextAsset[] dialogue;
+    public Quest[] quest;
+    public int currentQuestIndex = 0;
     private SphereCollider sightArea;
     private string doneStr = "You have done the quest!";
 
@@ -26,21 +27,28 @@ public class NPC : MonoBehaviour
 
     public void Talk()
     {
-        if (quest != null && quest.done)
+        if(quest.Length > currentQuestIndex)
         {
-            GameController.Instance.ShowFiveSecondText(doneStr);
-            return;
-        }
+            GameController.Instance.questPanel.alpha = 0.0f;
+            GameController.Instance.questPanel.blocksRaycasts = false;
+            GameController.Instance.InitQuest(quest[currentQuestIndex]);
 
-        GameController.Instance.questPanel.alpha = 0.0f;
-        GameController.Instance.questPanel.blocksRaycasts = false;
-        GameController.Instance.InitQuest(quest);
+            if (quest[currentQuestIndex].done)
+            {
+                if (currentQuestIndex < dialogue.Length - 1)
+                {
+                    currentQuestIndex++;
+                }
+            }
+        }       
 
-        GameController.Instance.AssignDialogue(dialogue);
+        GameController.Instance.AssignDialogue(dialogue[currentQuestIndex]);
         GameController.Instance.dialogueController.ResetAndStart();
         GameController.Instance.ActivateDialogue(true);
 
         GameController.Instance.fpc.m_MouseLook.SetCursorLock(false);
+
+        
     }
 
     /*void OnTriggerStay(Collider other)

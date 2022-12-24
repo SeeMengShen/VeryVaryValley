@@ -22,6 +22,7 @@ public class PlayerSight : MonoBehaviour
     private const string collectText = "E to collect";
     private const string talkText = "E to talk";
     private const string interactText = "E to interact";
+    private const string questText = "E to put";
     private const string itemStr = "Item";
     private const string npcStr = "NPC";
     private const string questStr = "Quest";
@@ -47,7 +48,7 @@ public class PlayerSight : MonoBehaviour
 
             CheckInteractable(interactable.tag);
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyUp(KeyCode.E))
             {
                 switch (interactable.tag)
                 {
@@ -62,10 +63,9 @@ public class PlayerSight : MonoBehaviour
                         interactable.GetComponent<Interactable>().Open();
                         break;
                     case questStr:
-                        if(!ItemBar.Instance.itemSlots[ItemBar.Instance.selectIndex].item.throwable && 
-                            !ItemBar.Instance.itemSlots[ItemBar.Instance.selectIndex].item.usable)
+                        if(ItemBar.Instance.IsHoldingQuestItem())
                         {
-                            //interactable.GetComponent<Quest>().
+                            interactable.GetComponent<QuestInteractable>().Put();
                         }
                         break;
 
@@ -88,7 +88,34 @@ public class PlayerSight : MonoBehaviour
 
     private void CheckInteractable(string objectTag)
     {
-        if (objectTag == itemStr)
+
+        switch(objectTag)
+        {
+            case itemStr:
+                textToShow = collectText;
+                break;
+            case npcStr:
+                textToShow = talkText;
+                break;
+            case interactableStr:
+                textToShow = interactText;
+                break;
+            case questStr:
+                if(ItemBar.Instance.IsHoldingQuestItem())
+                {
+                    textToShow = questText;
+                }
+/*                else
+                {
+                    textToShow = string.Empty;
+                }*/
+                break;
+            default:
+                textToShow = string.Empty;
+                return;
+        }
+
+        /*if (objectTag == itemStr)
         {
             textToShow = collectText;
         }
@@ -100,10 +127,14 @@ public class PlayerSight : MonoBehaviour
         {
             textToShow = interactText;
         }
+        else if (objectTag == questStr)
+        {
+            textToShow = questText;
+        }
         else
         {
             textToShow = string.Empty;
-        }
+        }*/
 
         GameController.Instance.ShowHintText(textToShow);
         crosshair.color = Color.magenta;

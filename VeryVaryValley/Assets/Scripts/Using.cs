@@ -63,18 +63,9 @@ public class Using : MonoBehaviour
         {
             if (Input.GetKeyUp(useKey))
             {
-                if (!IsEmpty())
+                if (readyToUse)
                 {
-                    if (!IsUsable())
-                    {
-                        GameController.Instance.ShowWarningText(notUsable);
-                        return;
-                    }
-
-                    if (readyToUse)
-                    {
-                        Use(CheckPointing());
-                    }
+                    Use(CheckPointing());
                 }
             }
             else
@@ -84,10 +75,9 @@ public class Using : MonoBehaviour
         }
         else if (Input.GetKey(useKey))
         {
-            if (!IsEmpty())
+            if(!ItemBar.Instance.IsHoldingEmpty())
             {
                 GameController.Instance.ShowWarningText(notUsable);
-                return;
             }
         }
     }
@@ -96,11 +86,10 @@ public class Using : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(cam.position, cam.forward, out hit, 20f))
+        if (Physics.Raycast(cam.position, cam.forward, out hit, 150.0f, 7))
         {
             if (hit.collider.tag == itemTag)
             {
-                Debug.Log(hit.collider.name);
                 GameController.Instance.ShowGrabText(pointingItemText + hit.collider.name);
                 crosshair.color = Color.yellow;
                 return hit.collider.gameObject;
@@ -146,9 +135,9 @@ public class Using : MonoBehaviour
 
     public void UpdateSelectingItem()
     {
-        selectingItemSlot = ItemBar.Instance.itemSlots[ItemBar.Instance.selectIndex];
+        selectingItemSlot = ItemBar.Instance.GetSelectingItemSlot();
 
-        if (IsUsable() && !IsEmpty())
+        if (ItemBar.Instance.IsHoldingUsable())
         {
             holdingUsable = true;
         }
@@ -159,26 +148,6 @@ public class Using : MonoBehaviour
 
         objectToUse.SetActive(holdingUsable);
         FirstPersonController.animator.SetBool(holdingAnimBool, holdingUsable);
-    }
-
-    private bool IsUsable()
-    {
-        if (selectingItemSlot.item.usable)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool IsEmpty()
-    {
-        if (selectingItemSlot.item == ItemBar.Instance.emptyItem)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private void InitText()

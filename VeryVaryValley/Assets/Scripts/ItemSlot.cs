@@ -41,7 +41,9 @@ public class ItemSlot : MonoBehaviour
 
     public void MinusSlotContent()
     {
-        if(quantity > 1)
+        quantity--;
+
+        if (quantity > 1)
         {
             quantityText.text = quantity.ToString();
         }
@@ -56,7 +58,5 @@ public class ItemSlot : MonoBehaviour
 
             quantityText.text = string.Empty;
         }
-
-        quantity--;
     }
 }

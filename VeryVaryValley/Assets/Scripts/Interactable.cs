@@ -8,6 +8,7 @@ public class Interactable : MonoBehaviour
     public CanvasGroup lockUI;
     public Throwing player;
     public GameObject desk;
+    private string untaggedStr = "Untagged";
 
     // Start is called before the first frame update
     void Start()
@@ -25,14 +26,13 @@ public class Interactable : MonoBehaviour
     {
         if(locked)
         {
-            Debug.Log("Its locked!");
             ShowLockUI(true);
 
             GameController.Instance.fpc.m_MouseLook.SetCursorLock(false);
         }
         else
         {
-            Debug.Log("Opened!");            
+            gameObject.tag = untaggedStr;        
         }
     }
 
