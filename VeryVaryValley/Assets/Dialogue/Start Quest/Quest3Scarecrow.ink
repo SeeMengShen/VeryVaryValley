@@ -6,7 +6,7 @@ My poor crops...
             +++[Yeah, I can do that.]
             Oh thank you, and I heard that you were looking for car parts to fix your broken car? Maybe I can trade you something for completing this quest.
                 ++++[Sounds fantastic!]
-                Great! Good luck!
+                Great! Make sure to talk to me after you're done! Good luck!
                 ->END
             
             +++[I don't want to do scarp finding thoough...]
