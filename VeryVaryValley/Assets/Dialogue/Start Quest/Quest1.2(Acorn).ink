@@ -3,7 +3,7 @@ Ah, I see you have those acorn! Congrats!
 
     Next, you may plant those acorn in those pots over there.
     ++[Sure, seems easy enough.]
-        Great, once you're done with this, you'll get your car part!
+        Great, once you're done with this, talk to me and you'll get your car part!
         ->END
     
     ++[More work? No thanks...]
