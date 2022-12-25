@@ -17,6 +17,8 @@ public class ItemBar : MonoBehaviour
 
     private Vector3 textPosition = new Vector3(180.0f, -50f, 0.0f);
 
+    private string mouseScrWheel = "Mouse ScrollWheel";
+
     void Awake()
     {
         if (Instance == null)
@@ -53,12 +55,12 @@ public class ItemBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetAxis("Mouse ScrollWheel") == 0.0f)
+        if(Input.GetAxis(mouseScrWheel) == 0.0f)
         {
             return;
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") > 0.0f)
+        if(Input.GetAxis(mouseScrWheel) > 0.0f)
         {
             selectIndex--;
         }

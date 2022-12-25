@@ -68,7 +68,7 @@ public class Interactable : MonoBehaviour
     {
         for(int i = 0; i < 10; i++)
         {
-            desk.transform.position += new Vector3(0.0f, 0.0f, i/100f);
+            desk.transform.localPosition += new Vector3(0.0f, 0.0f, i/100f);
             yield return null;
         }        
     }

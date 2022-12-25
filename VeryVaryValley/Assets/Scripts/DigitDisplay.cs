@@ -10,7 +10,11 @@ public class DigitDisplay : MonoBehaviour
     [SerializeField]
     private Image[] characters;
     private string codeSequence;
-    private const string passwordStr = "1234";
+    private const string firstTwoPasswordStr = "34";
+    private const string zeroStr = "0";
+    private string passwordStr;
+
+    private int lastMinute;
 
     public Interactable safeBox;
 
@@ -23,13 +27,22 @@ public class DigitDisplay : MonoBehaviour
             characters[i].sprite = digits[8];
         }
 
-        //PushTheButton.ButtonPressed += AddDigitToCodeSequence;
+        lastMinute = System.DateTime.Now.Minute;
+
+        Debug.Log(System.DateTime.Now);
+        UpdatePassword();
+        Debug.Log(passwordStr);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(lastMinute != System.DateTime.Now.Minute)
+        {
+            UpdatePassword();
+            Debug.Log(passwordStr);
+            Debug.Log(System.DateTime.Now);
+        }
     }
 
     public void AddDigitToCodeSequence(int digitEntered)
@@ -121,5 +134,19 @@ public class DigitDisplay : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         ResetDisplay();
+    }
+
+    private void UpdatePassword()
+    {
+        lastMinute = System.DateTime.Now.Minute;
+
+        if(lastMinute < 10)
+        {
+            passwordStr = firstTwoPasswordStr + zeroStr + lastMinute.ToString();
+        }
+        else
+        {
+            passwordStr = firstTwoPasswordStr + lastMinute.ToString();
+        }        
     }
 }

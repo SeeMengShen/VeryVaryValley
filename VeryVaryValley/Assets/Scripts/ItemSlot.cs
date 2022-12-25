@@ -43,7 +43,7 @@ public class ItemSlot : MonoBehaviour
     {
         quantity--;
 
-        if (quantity > 1)
+        if (quantity > 0)
         {
             quantityText.text = quantity.ToString();
         }

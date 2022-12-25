@@ -28,6 +28,8 @@ public class PlayerSight : MonoBehaviour
     private const string questStr = "Quest";
     private const string interactableStr = "Interactable";
 
+    private string grabGun = "GrabGun";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -157,6 +159,11 @@ public class PlayerSight : MonoBehaviour
 
         if(!newItem.throwable && !newItem.usable)                       // Not throwable and not usable (Quest Item)
         {
+            if (newItem.name == grabGun)
+            {
+                newItem.usable = true;
+            }
+
             hit.collider.gameObject.GetComponent<QuestItem>().Take();
         }
     }
@@ -175,5 +182,10 @@ public class PlayerSight : MonoBehaviour
         }
 
         itemSlot.AddSlotContent(newItem);
+
+        if (!newItem.throwable && !newItem.usable)                       // Not throwable and not usable (Quest Item)
+        {
+            toCollect.gameObject.GetComponent<QuestItem>().Take();
+        }
     }
 }
