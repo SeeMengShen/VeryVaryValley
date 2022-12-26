@@ -7,7 +7,10 @@ using Ink.Runtime;
 public class BasicInkExample : MonoBehaviour {
     public static event Action<Story> OnCreateStory;
 
-    void Awake () {
+	private const string END_CONVERSATION = "End conversation";
+
+
+	void Awake () {
 		// Remove the default message
 		RemoveChildren();
 	}
@@ -56,20 +59,20 @@ public class BasicInkExample : MonoBehaviour {
 		}
 		// If we've read all the content and there's no choices, the story is finished!
 		else {
-			Button choice = CreateChoiceView("End conversation");
+			Button choice = CreateChoiceView(END_CONVERSATION);
 
 			choice.onClick.AddListener(delegate{
 				//END STORY HERE
-				GameController.Instance.ActivateDialogue(false);
-				GameController.Instance.AssignDialogue(null);
-				GameController.Instance.fpc.m_MouseLook.SetCursorLock(true);
+				LevelController.Instance.ActivateDialogue(false);
+				LevelController.Instance.AssignDialogue(null);
+				LevelController.Instance.StopControl(false);
 
-				if(GameController.Instance.currentQuest != null)
+				if(LevelController.Instance.currentSideQuest != null)
                 {
-					if (GameController.Instance.acceptQuest)
+					if (LevelController.Instance.acceptQuest && !LevelController.Instance.currentSideQuest.done)
 					{
-						GameController.Instance.questPanel.alpha = 1.0f;
-						GameController.Instance.questPanel.blocksRaycasts = true;
+						LevelController.Instance.sideQuestPanel.alpha = 1.0f;
+						LevelController.Instance.sideQuestPanel.blocksRaycasts = true;
 					}
 				}
 				return;
@@ -83,11 +86,11 @@ public class BasicInkExample : MonoBehaviour {
 
 		if(choice.index == 0)
         {
-			GameController.Instance.UpdateAcceptQuest(true);
+			LevelController.Instance.UpdateAcceptQuest(true);
         }
         else
         {
-			GameController.Instance.UpdateAcceptQuest(false);
+			LevelController.Instance.UpdateAcceptQuest(false);
 		}
 
 		RefreshView();

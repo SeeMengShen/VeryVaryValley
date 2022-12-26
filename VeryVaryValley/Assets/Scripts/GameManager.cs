@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
     //the camera that is used to capture the background of the menu and setting
     public Transform followingObject;
 
+    public GameObject settingsUI;
 
     private bool gameHasInitialized = false;
 
@@ -32,8 +33,6 @@ public class GameManager : MonoBehaviour {
             return gameHasInitialized;
         }
     }
-
-
 
     //USE THIS LOAD SCENE AND DONT USE SCENE MANAGER
     public static void LoadScene(string sceneName) {
@@ -56,7 +55,7 @@ public class GameManager : MonoBehaviour {
 
             //dont destory game manager and ui manager
             //string[] dontDestroyList = new string[] { "UIManager", "MenuCamera", "Terrain", "AudioManager" };
-            string[] dontDestroyList = new string[] { "UIManager", "AudioManager" };
+            string[] dontDestroyList = new string[] { "UIManager", "AudioMixerManager", "AudioManager" };
             DontDestroyOnLoadList(dontDestroyList);
 
             //play background music
@@ -79,6 +78,5 @@ public class GameManager : MonoBehaviour {
         foreach (string gameObjectElement in gameObjectList) {
             DontDestroyOnLoad(GameObject.Find(gameObjectElement));
         }
-
     }
 }

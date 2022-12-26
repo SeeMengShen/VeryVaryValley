@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-
     public static UIManager Instance = null;
-    public CanvasGroup[] canvas;
+    private CanvasGroup[] usingCanvasSet = new CanvasGroup[5];
+
+    public Slider masterSlider;
+    public Slider backgroundSlider;
+    public Slider effectSlider;
+    public Toggle muteToggle;
+
     public float waitSeconds = 3.0f;
     private string levelToLoad;
+    private const string MASTER_STR = "Master";
+    private const string BACKGROUND_STR = "Background";
+    private const string EFFECT_STR = "Effect";
+    private const string CUTSCENESCENE_STR = "CutsceneScene";
 
     public CanvasGroup showingCanvas;
-    private string[] canvasStr = { "Main Menu", "HowToPlay", "Settings" };
 
     void Awake()
     {
@@ -24,8 +33,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        Instance.showingCanvas = canvas[0];
     }
 
     IEnumerator Wait(float second)
@@ -37,14 +44,12 @@ public class UIManager : MonoBehaviour
 
     public void PlayButtonPressed()
     {
-        levelToLoad = "CutsceneScene";
+        levelToLoad = CUTSCENESCENE_STR;
         GameManager.LoadScene(levelToLoad);
-        //Destroy(GameObject.Find("MenuCamera"));
     }
 
     public void QuitButtonPressed()
     {
-        levelToLoad = "Quit";
         Instance.StartCoroutine(Wait(waitSeconds));
     }
 
@@ -52,21 +57,12 @@ public class UIManager : MonoBehaviour
     {
         Instance.HideCurrentCanvas();
         Instance.ShowCanvas(2, true);
-        return;
-
-        /*levelToLoad = "SettingsScene";
-        GameManager.LoadScene(levelToLoad);*/
     }
 
     public void HowToPlayButtonPressed()
     {
         Instance.HideCurrentCanvas();
         Instance.ShowCanvas(1, true);
-
-        return;
-
-        /*levelToLoad = "HowToPlayScene";
-        GameManager.LoadScene(levelToLoad);*/
     }
 
 
@@ -90,7 +86,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowCanvas(int canvasIndex, bool show)
     {
-        showingCanvas = canvas[canvasIndex];
+        showingCanvas = usingCanvasSet[canvasIndex];
 
         if (show)
         {
@@ -113,4 +109,39 @@ public class UIManager : MonoBehaviour
         showingCanvas.interactable = false;
     }
 
+    public void ChangeCanvasSet(CanvasGroup[] newCanvasSet)
+    {
+        usingCanvasSet = newCanvasSet;
+
+        ShowCanvas(0, true);
+    }
+
+    public void Resume()
+    {
+        Instance.HideCurrentCanvas();
+        Instance.ShowCanvas(0, true);
+        LevelController.Instance.StopControl(false);
+    }
+
+    public void Pause()
+    {
+        Instance.HideCurrentCanvas();
+        Instance.ShowCanvas(3, true);
+        LevelController.Instance.StopControl(true);
+    }
+
+    public void SetAudioUI(Slider newMasterSlider, Slider newBackgroundSlider, Slider newEffectSlider, Toggle newMuteToggle)
+    {
+        masterSlider = newMasterSlider;
+        backgroundSlider = newBackgroundSlider;
+        effectSlider = newEffectSlider;
+        muteToggle = newMuteToggle;
+
+        AudioMixerManager.Instance.InitAudioUI();
+
+        masterSlider.onValueChanged.AddListener(delegate { AudioMixerManager.Instance.SetValue(MASTER_STR); });
+        backgroundSlider.onValueChanged.AddListener(delegate { AudioMixerManager.Instance.SetValue(BACKGROUND_STR); });
+        effectSlider.onValueChanged.AddListener(delegate { AudioMixerManager.Instance.SetValue(EFFECT_STR); });
+        muteToggle.onValueChanged.AddListener(delegate { AudioMixerManager.Instance.MuteMaster(); });
+    }
 }

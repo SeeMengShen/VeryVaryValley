@@ -8,12 +8,9 @@ public class RotateMenuCamera : MonoBehaviour {
 
     public float speed = 3.0f;
     public Transform targetCamera;
-    public Transform followingObject;
+    public Transform followingObject;    
 
-    private static bool hasRandomizedCameraPosition = false;
-
-
-    
+    private static bool hasRandomizedCameraPosition = false;    
 
     void Awake() {
         if (Instance == null) {
@@ -29,20 +26,20 @@ public class RotateMenuCamera : MonoBehaviour {
             hasRandomizedCameraPosition =true;
         }
         else {
-            followingObject = GameManager.Instance.followingObject;
+            //followingObject = GameManager.Instance.followingObject;
         }
     }
 
     // Update is called once per frame
     void Update() {
+        GameManager.Instance.followingObject = followingObject.transform;
+
         //camera look at rotating empty object
         targetCamera.transform.LookAt(
             GameManager.Instance.followingObject.position
             );
 
         //the rotating empty is rotating, camera is the center
-        followingObject.transform.RotateAround(targetCamera.position, Vector3.up, speed * Time.deltaTime);
-
-        GameManager.Instance.followingObject = followingObject.transform;
+        followingObject.transform.RotateAround(targetCamera.position, Vector3.up, speed * Time.deltaTime);        
     }
 }

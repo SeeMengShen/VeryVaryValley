@@ -12,13 +12,14 @@ public class AudioMixerManager : MonoBehaviour {
     public const string MASTER_NAME = "Master";
     public const string BACKGROUND_NAME = "Background";
     public const string EFFECT_NAME = "Effect";
+    public const string AUDIO_MIXER_PATH = "Sounds/AudioMixer";
+
+    private static AudioMixer audioMixer;
 
     public Slider masterSlider;
     public Slider backgroundSlider;
     public Slider effectSlider;
     public Toggle muteToggle;
-
-    public AudioMixer audioMixer;
 
     void Awake() {
         if (Instance == null) {
@@ -27,9 +28,22 @@ public class AudioMixerManager : MonoBehaviour {
         else if (Instance != this) {
             Destroy(gameObject);
         }
+
+        audioMixer = (AudioMixer)Resources.Load(AUDIO_MIXER_PATH);
     }
 
-    void Start() {
+    void Start() 
+    {
+        InitAudioUI();
+    }
+
+    public void InitAudioUI()
+    {
+        masterSlider = UIManager.Instance.masterSlider;
+        backgroundSlider = UIManager.Instance.backgroundSlider;
+        effectSlider = UIManager.Instance.effectSlider;
+        muteToggle = UIManager.Instance.muteToggle;
+
         //always get value from game manager
         masterSlider.value = GameManager.Instance.masterVolume;
         backgroundSlider.value = GameManager.Instance.backgroundVolume;
@@ -37,8 +51,8 @@ public class AudioMixerManager : MonoBehaviour {
         muteToggle.isOn = GameManager.Instance.muteToggleIsOn;
     }
 
-    public void SetValue(string audioGroup) {
-
+    public void SetValue(string audioGroup) 
+    {
         //if muted, no need to change
         if (muteToggle.isOn) return;
 
@@ -80,6 +94,5 @@ public class AudioMixerManager : MonoBehaviour {
         //change the value in game manager
         GameManager.Instance.muteToggleIsOn = muteToggle.isOn;
     }
-
 }
 
