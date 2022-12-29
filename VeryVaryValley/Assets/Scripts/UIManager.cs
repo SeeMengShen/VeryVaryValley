@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     private const string MASTER_STR = "Master";
     private const string BACKGROUND_STR = "Background";
     private const string EFFECT_STR = "Effect";
-    private const string CUTSCENESCENE_STR = "CutsceneScene";
+    
 
     public CanvasGroup showingCanvas;
 
@@ -35,22 +35,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    IEnumerator Wait(float second)
-    {
-        yield return new WaitForSeconds(second);
-        Application.Quit();
-        Debug.Log("Quit");
-    }
 
     public void PlayButtonPressed()
     {
-        levelToLoad = CUTSCENESCENE_STR;
+        
+        levelToLoad = GameManager.CUTSCENESCENE_STR;
         GameManager.LoadScene(levelToLoad);
     }
 
     public void QuitButtonPressed()
     {
-        Instance.StartCoroutine(Wait(waitSeconds));
+        Application.Quit();
     }
 
     public void SettingsButtonPressed()

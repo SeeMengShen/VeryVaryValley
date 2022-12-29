@@ -536,7 +536,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 177317137}
-  m_LocalRotation: {x: 0.229753, y: 0.0000000034027137, z: -8.0327234e-10, w: 0.97324896}
+  m_LocalRotation: {x: 0.22975303, y: -0.000000029203992, z: 0.000000006894131, w: 0.97324896}
   m_LocalPosition: {x: -35.04489, y: 1.7962799, z: -23.322762}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -653,7 +653,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.16245992, y: 0.68819094, z: -0.16245992, w: 0.68819094}
+  m_LocalRotation: {x: 0.16245991, y: 0.68819094, z: -0.16245991, w: 0.68819094}
   m_LocalPosition: {x: 440.99997, y: 34.65, z: 9.638}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2164,7 +2164,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279177414}
-  m_LocalRotation: {x: 0.16245988, y: 0.68819106, z: -0.16245994, w: 0.68819094}
+  m_LocalRotation: {x: 0.16245991, y: 0.688191, z: -0.16245991, w: 0.688191}
   m_LocalPosition: {x: -264.04486, y: 1.7962799, z: -12.460761}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2927,16 +2927,17 @@ MonoBehaviour:
     m_Events:
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1411930770}
-          m_TargetAssemblyTypeName: ChangeScene, Assembly-CSharp
-          m_MethodName: changeScene
-          m_Mode: 1
+        - m_Target: {fileID: 8138770572205435678, guid: eeaa2860db7a0bc40831a738ebb3bc82,
+            type: 3}
+          m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+          m_MethodName: LoadScene
+          m_Mode: 5
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: 
+            m_StringArgument: GameScene
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!4 &1411930772
@@ -4458,7 +4459,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1847819590}
-  m_LocalRotation: {x: 0.16245992, y: 0.68819094, z: -0.16245992, w: 0.68819094}
+  m_LocalRotation: {x: 0.16245991, y: 0.68819094, z: -0.16245991, w: 0.68819094}
   m_LocalPosition: {x: -44.04489, y: 1.7962799, z: -14.3227625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4982,6 +4983,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 434259115, guid: c6cf990dfbd04c845abf6ffb49bd5ed8, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -5552812233052624947, guid: 4d801a58bb9af2146a7c77318ffa8cfb,
+        type: 2}
     - target: {fileID: 6155287235837795018, guid: c6cf990dfbd04c845abf6ffb49bd5ed8,
         type: 3}
       propertyPath: m_RootOrder

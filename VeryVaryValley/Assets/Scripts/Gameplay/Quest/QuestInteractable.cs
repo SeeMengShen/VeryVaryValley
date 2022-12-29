@@ -45,6 +45,12 @@ public class QuestInteractable : MonoBehaviour
             {
                 gameObject.tag = untaggedStr;
             }
+
+
+            //play put acorn sound effect
+            AudioManager.Instance.PlayOneShotSoundEffect(AudioManager.Instance.placeEffect);
+
+
         }
         else
         {

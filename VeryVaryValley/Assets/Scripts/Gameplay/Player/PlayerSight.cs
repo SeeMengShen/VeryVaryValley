@@ -135,8 +135,13 @@ public class PlayerSight : MonoBehaviour
             }
             hit.collider.gameObject.GetComponent<QuestItem>().Take();
         }
+
+
+        //play pick up sound
+        AudioManager.Instance.PlayOneShotSoundEffect(AudioManager.Instance.pickUpEffect);
     }
 
+    //grab gun only
     public void Collect(GameObject toCollect)
     {
         newItem = (Item)Resources.Load(ITEM_RESOURCE_STR + toCollect.name);

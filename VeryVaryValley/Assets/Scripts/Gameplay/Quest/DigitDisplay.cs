@@ -64,7 +64,9 @@ public class DigitDisplay : MonoBehaviour
                 CheckResults();
             }
         }
-    }
+
+
+      }
 
     private void DisplayCodeSequence(int digitJustEntered)
     {

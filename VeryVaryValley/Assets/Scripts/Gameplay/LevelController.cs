@@ -6,8 +6,7 @@ using TMPro;
 
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class LevelController : MonoBehaviour
-{
+public class LevelController : MonoBehaviour {
     public static LevelController Instance = null;
 
     public TextMeshProUGUI uiHintText;
@@ -51,6 +50,7 @@ public class LevelController : MonoBehaviour
     private TextMeshProUGUI sideQuestStatus;
     public bool acceptQuest = true;
 
+    //cursor apper, stopControl == true
     private bool stopControl;
     public bool pause;
 
@@ -58,21 +58,17 @@ public class LevelController : MonoBehaviour
     private string inProgStr = "In Progress";
     private string endCutsceneStr = "EndingCutsceneScene";
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
+    void Awake() {
+        if (Instance == null) {
             Instance = this;
         }
-        else if (Instance != this)
-        {
+        else if (Instance != this) {
             Destroy(gameObject);
         }
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         scaleHolder = new Vector3(1.0f, 0.0f, 1.0f);
         colorHolder = new Color(0.0f, 0.0f, 0.0f);
 
@@ -84,35 +80,28 @@ public class LevelController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.M))
-        {
+    void Update() {
+        if (Input.GetKeyUp(KeyCode.M)) {
             showMap = !showMap;
 
-            if (showMap)
-            {
+            if (showMap) {
                 map.alpha = 1.0f;
             }
-            else
-            {
+            else {
                 map.alpha = 0.0f;
             }
 
             map.blocksRaycasts = showMap;
             map.interactable = showMap;
-        }        
+        }
 
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
+        if (Input.GetKeyUp(KeyCode.Escape)) {
             pause = !pause;
 
-            if (pause)
-            {
+            if (pause) {
                 UIManager.Instance.Pause();
             }
-            else
-            {
+            else {
                 UIManager.Instance.Resume();
             }
         }
@@ -120,24 +109,20 @@ public class LevelController : MonoBehaviour
         Instance.fpc.m_MouseLook.SetCursorLock(!stopControl);
     }
 
-    public void StopControl(bool stop)
-    {
+    public void StopControl(bool stop) {
         Instance.StartCoroutine(DelayStopControl(stop));
     }
 
-    private IEnumerator DelayStopControl(bool stop)
-    {
+    private IEnumerator DelayStopControl(bool stop) {
         yield return new WaitForEndOfFrame();
         stopControl = stop;
     }
 
-    public bool GetStopControl()
-    {
+    public bool GetStopControl() {
         return stopControl;
     }
 
-    private void AssignUI()
-    {
+    private void AssignUI() {
         mainQuestTitle = mainQuestPanel.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
         mainQuestDesc = mainQuestPanel.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         mainQuestStatus = mainQuestPanel.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -149,59 +134,48 @@ public class LevelController : MonoBehaviour
         sideQuestProgressStr = sideQuestPanel.transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>();
     }
 
-    public void ShowHintText(string text)
-    {
+    public void ShowHintText(string text) {
         uiHintText.text = text;
     }
 
-    public void ShowGrabText(string text)
-    {
+    public void ShowGrabText(string text) {
         grabText.text = text;
     }
 
-    public void ShowWarningText(string text)
-    {
+    public void ShowWarningText(string text) {
         StartCoroutine(ShowFiveSecondText(text));
     }
 
-    public IEnumerator ShowFiveSecondText(string text)
-    {
+    public IEnumerator ShowFiveSecondText(string text) {
         uiWarningText.text = text;
         yield return new WaitForSeconds(5.0f);
         uiWarningText.text = string.Empty;
     }
 
-    public void ResetCollectable(GameObject collectable)
-    {
+    public void ResetCollectable(GameObject collectable) {
         Instance.StartCoroutine(ResetC(collectable));
     }
 
-    private IEnumerator ResetC(GameObject collectable)
-    {
+    private IEnumerator ResetC(GameObject collectable) {
         collectable.GetComponent<Collectable>().availableQty = collectable.GetComponent<Collectable>().defaultQty;
         collectable.SetActive(false);
         yield return new WaitForSeconds(10f);
         collectable.SetActive(true);
     }
 
-    public void PlayerCharging()
-    {
-        if (increase)
-        {
+    public void PlayerCharging() {
+        if (increase) {
             currentPower += chargingSpeed;
 
-            if (currentPower >= maxPower)
-            {
+            if (currentPower >= maxPower) {
                 increase = false;
                 currentPower = maxPower;
             }
         }
-        else
-        {
+        else {
             currentPower -= chargingSpeed;
 
-            if (currentPower <= minPower)
-            {
+            if (currentPower <= minPower) {
                 increase = true;
                 currentPower = minPower;
             }
@@ -210,8 +184,7 @@ public class LevelController : MonoBehaviour
         UpdatePowerBar();
     }
 
-    public void UpdatePowerBar()
-    {
+    public void UpdatePowerBar() {
         scaleHolder.Set(1.0f, currentPower, 1.0f);
         colorHolder.r = 1.0f - currentPower;
         colorHolder.g = currentPower / 2.0f;
@@ -220,25 +193,20 @@ public class LevelController : MonoBehaviour
         power.color = colorHolder;
     }
 
-    public void ResetPowerBar()
-    {
+    public void ResetPowerBar() {
         currentPower = 0.0f;
         UpdatePowerBar();
     }
 
-    public void AssignDialogue(TextAsset inkJSONAsset)
-    {
+    public void AssignDialogue(TextAsset inkJSONAsset) {
         dialogueController.inkJSONAsset = inkJSONAsset;
     }
 
-    public void ActivateDialogue(bool active)
-    {
-        if (active)
-        {
+    public void ActivateDialogue(bool active) {
+        if (active) {
             dialoguePanel.alpha = 1.0f;
         }
-        else
-        {
+        else {
             dialoguePanel.alpha = 0.0f;
         }
 
@@ -248,10 +216,8 @@ public class LevelController : MonoBehaviour
         stopControl = active;
     }
 
-    public void InitSideQuest(Quest quest)
-    {
-        if (quest == null)
-        {
+    public void InitSideQuest(Quest quest) {
+        if (quest == null) {
             return;
         }
 
@@ -262,8 +228,7 @@ public class LevelController : MonoBehaviour
         UpdateSideQuestStatus(quest.done);
     }
 
-    public void InitMainQuest(Quest quest)
-    {
+    public void InitMainQuest(Quest quest) {
         currentMainQuest = quest;
         mainQuestTitle.text = quest.questTitle;
         mainQuestDesc.text = quest.questDesc;
@@ -271,89 +236,79 @@ public class LevelController : MonoBehaviour
         UpdateMainQuestStatus(quest.done);
     }
 
-    public void UpdateAcceptQuest(bool accept)
-    {
+    public void UpdateAcceptQuest(bool accept) {
         acceptQuest = accept;
     }
 
-    public void UpdateSideQuestProgressUI(string text)
-    {
+    public void UpdateSideQuestProgressUI(string text) {
         sideQuestProgressStr.text = text;
     }
 
-    public void UpdateMainQuestProgressUI(string text)
-    {
+    public void UpdateMainQuestProgressUI(string text) {
         mainQuestProgressStr.text = text;
     }
 
-    public void UpdateSideQuestStatus(bool done)
-    {
-        if (done)
-        {
+    public void UpdateSideQuestStatus(bool done) {
+        if (done) {
             sideQuestProgressStr.color = Color.green;
             sideQuestStatus.text = doneStr;
 
+            //play mission complete sound
+            AudioManager.Instance.PlayOneShotSoundEffect(AudioManager.Instance.questCompleteEffect);
+
             Instance.StartCoroutine(HideSideQuestPanel());
         }
-        else
-        {
+        else {
             sideQuestProgressStr.color = Color.white;
             sideQuestStatus.text = inProgStr;
         }
+
+
+
     }
 
-    public void UpdateMainQuestStatus(bool done)
-    {
-        if(currentMainQuest == mainQuest1)
-        {
-            if (done)
-            {
+    public void UpdateMainQuestStatus(bool done) {
+        if (currentMainQuest == mainQuest1) {
+            if (done) {
                 mainQuestProgressStr.color = Color.green;
                 mainQuestStatus.text = doneStr;
 
                 Instance.StartCoroutine(ChangeMainQuest());
             }
-            else
-            {
+            else {
                 mainQuestProgressStr.color = Color.white;
                 mainQuestStatus.text = inProgStr;
             }
         }
-        else if(currentMainQuest == mainQuest2)
-        {
-            if (done)
-            {
+        else if (currentMainQuest == mainQuest2) {
+            if (done) {
                 mainQuestProgressStr.color = Color.green;
                 mainQuestStatus.text = doneStr;
                 stopControl = true;
                 Instance.StartCoroutine(PlayEndCutScene());
-                
+
             }
-            else
-            {
+            else {
                 mainQuestProgressStr.color = Color.white;
                 mainQuestStatus.text = inProgStr;
             }
-        }        
+        }
     }
 
-    IEnumerator HideSideQuestPanel()
-    {
+    IEnumerator HideSideQuestPanel() {
         yield return new WaitForSeconds(5.0f);
         sideQuestPanel.alpha = 0.0f;
         sideQuestPanel.blocksRaycasts = false;
     }
 
-    IEnumerator ChangeMainQuest()
-    {
+    IEnumerator ChangeMainQuest() {
         yield return new WaitForSeconds(5.0f);
         InitMainQuest(mainQuest2);
         mainQuestIndicator.SetActive(true);
     }
 
-    IEnumerator PlayEndCutScene()
-    {
-        yield return new WaitForSeconds(2.0f);
+    IEnumerator PlayEndCutScene() {
+        yield return new WaitForSeconds(0.1f);
         GameManager.LoadScene(endCutsceneStr);
     }
 }

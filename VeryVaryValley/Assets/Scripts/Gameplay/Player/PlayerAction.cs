@@ -167,6 +167,9 @@ public class PlayerAction : MonoBehaviour
         FirstPersonController.animator.SetBool(THROWING_ANIM_BOOL, true);
         yield return new WaitForSeconds(0.7f);
         Throw();
+
+        //play throw sound
+        AudioManager.Instance.PlayOneShotSoundEffect(AudioManager.Instance.throwingEffect);
     }
 
     public void UpdateSelectingItem()
@@ -222,5 +225,10 @@ public class PlayerAction : MonoBehaviour
             cam.GetComponent<PlayerSight>().Collect(pointingObject);
             pointingObject.GetComponent<Collectable>().Collected();
         }
+
+
+        //play gun shot
+        AudioManager.Instance.PlayGunSound();
+
     }
 }

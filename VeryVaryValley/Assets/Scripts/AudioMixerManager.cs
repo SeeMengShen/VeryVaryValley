@@ -14,7 +14,7 @@ public class AudioMixerManager : MonoBehaviour {
     public const string EFFECT_NAME = "Effect";
     public const string AUDIO_MIXER_PATH = "Sounds/AudioMixer";
 
-    private static AudioMixer audioMixer;
+    public AudioMixer audioMixer;
 
     public Slider masterSlider;
     public Slider backgroundSlider;
