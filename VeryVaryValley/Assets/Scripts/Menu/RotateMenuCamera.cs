@@ -30,6 +30,11 @@ public class RotateMenuCamera : MonoBehaviour {
         }
     }
 
+    void Start()
+    {
+        followingObject = transform.GetChild(0);
+    }
+
     // Update is called once per frame
     void Update() {
         GameManager.Instance.followingObject = followingObject.transform;
