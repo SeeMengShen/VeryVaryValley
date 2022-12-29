@@ -2928,7 +2928,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crosshair: {fileID: 0}
   head: {fileID: 5948869678764341501}
-  player: {fileID: 0}
 --- !u!1 &5948869678183158499
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,7 +3061,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crosshair: {fileID: 0}
   head: {fileID: 5948869678764341501}
-  player: {fileID: 0}
 --- !u!1 &5948869678542056972
 GameObject:
   m_ObjectHideFlags: 0
@@ -3192,8 +3190,6 @@ GameObject:
   - component: {fileID: 5948869678778029278}
   - component: {fileID: 5948869678778029265}
   - component: {fileID: 5948869678778029264}
-  - component: {fileID: 5948869678778029279}
-  - component: {fileID: 5948869678778029276}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3462,51 +3458,6 @@ MonoBehaviour:
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
   firstPersonCamera: {fileID: 5948869678183158499}
   thirdPersonCamera: {fileID: 5948869677639999715}
---- !u!114 &5948869678778029279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5948869678778029269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eadc7784889a9da4f9d69a1d1514dbed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fpCam: {fileID: 5948869678183158496}
-  tpCam: {fileID: 5948869677639999712}
-  cam: {fileID: 0}
-  attackPoint: {fileID: 5948869679004684207}
-  objectToThrow: {fileID: 1570321102107489337, guid: 23978fd6e85f5cf4f8a8e800abf8a757,
-    type: 3}
-  selectingItemSlot: {fileID: 0}
-  quantity: 100
-  throwCooldown: 2.3
-  throwKey: 323
-  throwForce: 20
-  readyToThrow: 0
---- !u!114 &5948869678778029276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5948869678778029269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85ade7031caa3a245815fd8ee957d58f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fpCam: {fileID: 5948869678183158496}
-  tpCam: {fileID: 5948869677639999712}
-  cam: {fileID: 0}
-  objectToUse: {fileID: 0}
-  selectingItemSlot: {fileID: 0}
-  useKey: 324
-  readyToUse: 0
-  holdingUsable: 0
-  crosshair: {fileID: 0}
 --- !u!1 &5948869679004684206
 GameObject:
   m_ObjectHideFlags: 0

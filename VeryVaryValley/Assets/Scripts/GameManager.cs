@@ -28,6 +28,15 @@ public class GameManager : MonoBehaviour {
 
     private bool gameHasInitialized = false;
 
+
+
+    //scene name
+    public const string CUTSCENESCENE_STR = "CutsceneScene";
+    public const string GAMESCENE_STR = "GameScene";
+    public const string ENDINGCUTSCENESCENE_STR = "EndingCutsceneScene";
+    public const string MAINMENUSCENE_STR = "MainMenuScene";
+
+
     public bool GameHasInitialized {
         get {
             return gameHasInitialized;
@@ -37,6 +46,20 @@ public class GameManager : MonoBehaviour {
     //USE THIS LOAD SCENE AND DONT USE SCENE MANAGER
     public static void LoadScene(string sceneName) {
         stackHistory.Push(GetActiveScene().name);
+
+        //change bgm
+        if (sceneName == CUTSCENESCENE_STR) {
+            AudioManager.Instance.ChangeBackgroundMusic(AudioManager.inGameBGMID);
+
+
+
+        } else if (sceneName == ENDINGCUTSCENESCENE_STR) {
+            AudioManager.Instance.backgroundPlayer.Stop();
+        } else if (sceneName == MAINMENUSCENE_STR) {
+            AudioManager.Instance.ChangeBackgroundMusic(AudioManager.mainMenuBGMID);
+        }
+
+       
         SceneManager.LoadScene(sceneName);
     }
 
@@ -59,7 +82,6 @@ public class GameManager : MonoBehaviour {
             DontDestroyOnLoadList(dontDestroyList);
 
             //play background music
-            
             AudioManager.Instance.PlayBackgroundMusic();
 
             gameHasInitialized = true;
@@ -78,5 +100,10 @@ public class GameManager : MonoBehaviour {
         foreach (string gameObjectElement in gameObjectList) {
             DontDestroyOnLoad(GameObject.Find(gameObjectElement));
         }
+    }
+
+
+    public void SkipScene(string sceneName) {
+        //LoadScene(sceneName);
     }
 }

@@ -37,6 +37,11 @@ public class Interactable : MonoBehaviour
 
     public void Unlock()
     {
+        //play open sound
+       
+        AudioManager.Instance.PlayOneShotSoundEffect(AudioManager.Instance.openCabinetEffect);
+
+
         ShowLockUI(false);
         locked = false;
         StartCoroutine(AnimateOpen());
