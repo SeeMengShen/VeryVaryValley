@@ -48,11 +48,9 @@ public class GameManager : MonoBehaviour {
         //change bgm
         if (sceneName == CUTSCENESCENE_STR) {
             AudioManager.Instance.ChangeBackgroundMusic(AudioManager.inGameBGMID);
-
-
-
         } else if (sceneName == ENDINGCUTSCENESCENE_STR) {
-            AudioManager.Instance.backgroundPlayer.Stop();
+            //AudioManager.Instance.backgroundPlayer.Stop();
+            AudioManager.Instance.ChangeBackgroundMusic(AudioManager.endingBGMID);
         } else if (sceneName == MAINMENUSCENE_STR) {
             AudioManager.Instance.ChangeBackgroundMusic(AudioManager.mainMenuBGMID);
         }

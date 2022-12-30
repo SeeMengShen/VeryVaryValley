@@ -6,9 +6,9 @@ public class QuestInteractable : MonoBehaviour
 {
     public Quest quest;
     public Item questItem;
-    private string errorText = "This is not where you should put it!";
-    private string untaggedStr = "Untagged";
-    private string potStr = "Pot";
+    private const string ERROR_STR = "This is not where you should put it!";
+    private const string UNTAGGED_STR = "Untagged";
+    private const string POT_STR = "Pot";
     private int putIndex = 0;
 
     // Start is called before the first frame update
@@ -29,9 +29,10 @@ public class QuestInteractable : MonoBehaviour
         {
             ItemBar.Instance.GetSelectingItemSlot().MinusSlotContent();
             
-            if(gameObject.name == potStr)
+            if(gameObject.name == POT_STR)
             {
                 transform.GetChild(0).gameObject.SetActive(true);
+                gameObject.tag = UNTAGGED_STR;
             }
             else
             {
@@ -43,7 +44,7 @@ public class QuestInteractable : MonoBehaviour
 
             if(quest.done)
             {
-                gameObject.tag = untaggedStr;
+                gameObject.tag = UNTAGGED_STR;
             }
 
 
@@ -54,7 +55,7 @@ public class QuestInteractable : MonoBehaviour
         }
         else
         {
-            LevelController.Instance.ShowWarningText(errorText);
+            LevelController.Instance.ShowWarningText(ERROR_STR);
         }
         
     }

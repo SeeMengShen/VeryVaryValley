@@ -38,6 +38,7 @@ public class UIManager : MonoBehaviour
     public void PlayButtonPressed()
     {        
         levelToLoad = GameManager.CUTSCENESCENE_STR;
+        levelToLoad = GameManager.GAMESCENE_STR;
         GameManager.LoadScene(levelToLoad);
     }
 
@@ -63,18 +64,6 @@ public class UIManager : MonoBehaviour
     {
         Instance.HideCurrentCanvas();
         Instance.ShowCanvas(0, true);
-
-        return;
-
-        /*if (GameManager.stackHistory.Count > 0)
-        {
-            SceneManager.LoadScene(GameManager.stackHistory.Pop());
-
-        }
-        else
-        {
-            Debug.LogError("No previous scene!");
-        }*/
     }
 
     public void ShowCanvas(int canvasIndex, bool show)
