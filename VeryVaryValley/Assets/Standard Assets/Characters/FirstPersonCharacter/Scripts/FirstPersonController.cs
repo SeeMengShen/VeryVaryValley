@@ -54,9 +54,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         //Third-person Camera position
         private Vector3 thirdPersonView;
 
-        public GameObject firstPersonCamera;
-        public GameObject thirdPersonCamera;
-
         // Use this for initialization
         private void Start()
         {
@@ -99,24 +96,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_MoveDir.y = 0f;
             }
 
-            m_PreviouslyGrounded = m_CharacterController.isGrounded;
+            m_PreviouslyGrounded = m_CharacterController.isGrounded;      
+        }
 
-            //Toggle Camera View
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {                
-                if(firstPersonCamera.activeInHierarchy)
-                {
-                    thirdPersonCamera.SetActive(true);
-                    m_Camera = thirdPersonCamera.GetComponent<Camera>();
-                    firstPersonCamera.SetActive(false);
-                }
-                else
-                {
-                    firstPersonCamera.SetActive(true);
-                    m_Camera = firstPersonCamera.GetComponent<Camera>();
-                    thirdPersonCamera.SetActive(false);
-                }
-            }            
+        public void SetMainCamera(Camera newMainCamera)
+        {
+            m_Camera = newMainCamera;
         }
 
         private void PlayLandingSound()

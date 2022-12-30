@@ -37,12 +37,8 @@ public class FlyingAround : MonoBehaviour
 
         movementDirection.Set(x, y, z);
 
+        transform.rotation = Quaternion.FromToRotation(Vector3.forward, movementDirection - transform.localPosition);
+
         transform.localPosition = movementDirection;
-
-        movementDirection.Set(0.0f, 0.0f, z);
-        transform.forward = movementDirection;
-
-        /*Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);*/
     }
 }

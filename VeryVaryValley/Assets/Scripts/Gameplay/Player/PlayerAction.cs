@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -7,9 +8,7 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class PlayerAction : MonoBehaviour
 {
     [Header("References")]
-    public Transform fpCam;
-    public Transform tpCam;
-    public Transform cam;
+    public static Transform cam;
     public Transform attackPoint;
     public GameObject objectToThrow;
     public ItemSlot selectingItemSlot;
@@ -58,20 +57,11 @@ public class PlayerAction : MonoBehaviour
             return;
         }
 
-        // Check current active camera
-        if (LevelController.Instance.fpc.firstPersonCamera.activeInHierarchy)
-        {
-            cam = fpCam;
-        }
-        else
-        {
-            cam = tpCam;
-        }
-
         // Check current selecting item
         UpdateSelectingItem();
 
-        if (Input.GetKeyDown(throwKey))
+        // Charging throw
+        if (Input.GetKey(throwKey))
         {
             if (!ItemBar.Instance.IsHoldingThrowable() && !ItemBar.Instance.IsHoldingEmpty())
             {
@@ -84,21 +74,18 @@ public class PlayerAction : MonoBehaviour
                 {
                     charging = true;
                 }
-
             }
         }
-        else if (Input.GetKeyUp(throwKey))
+        else
         {
-            if (ItemBar.Instance.IsHoldingThrowable())
+            // Release key frame
+            if (charging)
             {
-                if (readyToThrow && quantity >= 1)
-                {
-                    charging = false;
-                    StartCoroutine(ThrowDelay());
-                    readyToThrow = false;
-                }
+                charging = false;
+                StartCoroutine(ThrowDelay());
+                readyToThrow = false;
             }
-        }
+        }        
 
         sceneUIManager.ShowReady(readyToThrow);
 

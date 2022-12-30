@@ -9,6 +9,9 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class LevelController : MonoBehaviour {
     public static LevelController Instance = null;
 
+    [SerializeField] private GameObject firstPersonCamera;
+    [SerializeField] private GameObject thirdPersonCamera;
+
     public TextMeshProUGUI uiHintText;
     public TextMeshProUGUI uiWarningText;
     public TextMeshProUGUI grabText;
@@ -77,10 +80,19 @@ public class LevelController : MonoBehaviour {
         InitMainQuest(mainQuest1);
 
         Physics.IgnoreLayerCollision(7, 8);
+
+        CheckCurrentActiveCamera();
     }
 
     // Update is called once per frame
     void Update() {
+
+        //Toggle Camera View
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            CheckCurrentActiveCamera();
+        }
+
         if (Input.GetKeyUp(KeyCode.M)) {
             showMap = !showMap;
 
@@ -107,6 +119,24 @@ public class LevelController : MonoBehaviour {
         }
 
         Instance.fpc.m_MouseLook.SetCursorLock(!stopControl);
+    }
+
+    private void CheckCurrentActiveCamera()
+    {
+        if (firstPersonCamera.activeInHierarchy)
+        {
+            thirdPersonCamera.SetActive(true);
+            fpc.SetMainCamera(thirdPersonCamera.GetComponent<Camera>());
+            firstPersonCamera.SetActive(false);
+            PlayerAction.cam = thirdPersonCamera.transform;
+        }
+        else
+        {
+            firstPersonCamera.SetActive(true);
+            fpc.SetMainCamera(firstPersonCamera.GetComponent<Camera>());
+            thirdPersonCamera.SetActive(false);
+            PlayerAction.cam = firstPersonCamera.transform;
+        }
     }
 
     public void StopControl(bool stop) {

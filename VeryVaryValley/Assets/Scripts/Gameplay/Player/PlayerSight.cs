@@ -42,8 +42,8 @@ public class PlayerSight : MonoBehaviour
         {
             return;
         }
-
-        if (Physics.Raycast(head.transform.position, transform.forward, out hit, 3.0f, 3))
+                
+        if (Physics.Raycast(head.transform.position, transform.forward, out hit, 3.0f, 3, QueryTriggerInteraction.Ignore))
         {
             interactable = hit.collider.gameObject;
 

@@ -5,8 +5,6 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
-
 public class GameManager : MonoBehaviour {
 
     public static GameManager Instance = null;
@@ -77,7 +75,6 @@ public class GameManager : MonoBehaviour {
         if (!gameHasInitialized) {
 
             //dont destory game manager and ui manager
-            //string[] dontDestroyList = new string[] { "UIManager", "MenuCamera", "Terrain", "AudioManager" };
             string[] dontDestroyList = new string[] { "UIManager", "AudioMixerManager", "AudioManager" };
             DontDestroyOnLoadList(dontDestroyList);
 

@@ -19,13 +19,9 @@ public class RotateMenuCamera : MonoBehaviour {
         else if (Instance != this) {
             Destroy(gameObject);
         }
-
-       
-
-      
     }
 
-    private void Start() {
+    void Start() {
         // to randomized the camera rotation angle
         if (!hasRandomizedCameraPosition) {
             followingObject.transform.RotateAround(targetCamera.position, Vector3.up, Random.Range(1, 361));
@@ -33,11 +29,6 @@ public class RotateMenuCamera : MonoBehaviour {
             hasRandomizedCameraPosition = true;
         }
 
-    }
-
-    void Start()
-    {
-        followingObject = transform.GetChild(0);
     }
 
     // Update is called once per frame

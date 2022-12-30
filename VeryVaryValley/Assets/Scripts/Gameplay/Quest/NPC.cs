@@ -47,32 +47,31 @@ public class NPC : MonoBehaviour
             LevelController.Instance.sideQuestPanel.blocksRaycasts = false;
 
             if (quest.Length > currentQuestIndex)
-            {                
+            {
                 LevelController.Instance.InitSideQuest(quest[currentQuestIndex]);
             }
             else
             {
-                if(!gaveReward)
+                if (!gaveReward)
                 {
                     GiveReward();
                     gaveReward = true;
                     Destroy(questIndicator);
-                }                
+                }
             }
-        }       
+        }
 
         LevelController.Instance.AssignDialogue(dialogue[currentQuestIndex]);
         LevelController.Instance.dialogueController.ResetAndStart();
         LevelController.Instance.ActivateDialogue(true);
         LevelController.Instance.StopControl(true);
-        // LevelController.Instance.fpc.m_MouseLook.SetCursorLock(false);        
     }
 
     private void GiveReward()
     {
         reward.SetActive(true);
 
-        if(gameObject.name == crowNPC)
+        if (gameObject.name == crowNPC)
         {
             Item crowItem = (Item)Resources.Load("Items/Crow");
             ItemBar.Instance.itemSlots[ItemBar.Instance.GetSlotIndex(crowItem)].MinusSlotContent();
@@ -80,8 +79,12 @@ public class NPC : MonoBehaviour
         }
     }
 
-    /*void OnTriggerStay(Collider other)
+    // Look at player while player enters trigger (area of sight)
+    void OnTriggerStay(Collider other)
     {
-        gameObject.transform.LookAt(other.gameObject.transform);
-    }*/
+        Vector3 direction = other.transform.position - transform.position;
+        direction.y = 0.0f;
+        Quaternion toRotation = Quaternion.FromToRotation(Vector3.forward, direction);
+        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 0.001f * Time.time);
+    }
 }
