@@ -2861,7 +2861,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 319
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2994,7 +2994,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 311
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3190,6 +3190,7 @@ GameObject:
   - component: {fileID: 5948869678778029278}
   - component: {fileID: 5948869678778029265}
   - component: {fileID: 5948869678778029264}
+  - component: {fileID: 2085514875}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3229,7 +3230,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1.8
-  m_Radius: 0.5
+  m_Radius: 0.65
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -3244,7 +3245,7 @@ AudioSource:
   m_GameObject: {fileID: 5948869678778029269}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4535599922092996823, guid: 4d801a58bb9af2146a7c77318ffa8cfb,
+  OutputAudioMixerGroup: {fileID: -5552812233052624947, guid: 4d801a58bb9af2146a7c77318ffa8cfb,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
@@ -3345,10 +3346,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsWalking: 0
-  m_WalkSpeed: 5
-  m_RunSpeed: 20
+  m_WalkSpeed: 10
+  m_RunSpeed: 15
   m_RunstepLenghten: 0.7
-  m_JumpSpeed: 10
+  m_JumpSpeed: 7.5
   m_StickToGroundForce: 10
   m_GravityMultiplier: 2
   m_MouseLook:
@@ -3450,14 +3451,36 @@ MonoBehaviour:
   m_JumpBob:
     BobDuration: 0.2
     BobAmount: 0.1
-  m_StepInterval: 5
+  m_StepInterval: 10
   m_FootstepSounds:
   - {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
   - {fileID: 8300000, guid: 8bc94ec6ed537e743b481638bdcd503d, type: 3}
   m_JumpSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   m_LandSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
-  firstPersonCamera: {fileID: 5948869678183158499}
-  thirdPersonCamera: {fileID: 5948869677639999715}
+--- !u!114 &2085514875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5948869678778029269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66abb29feebe81a40a27d2ecb53e55a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPoint: {fileID: 5948869679004684207}
+  objectToThrow: {fileID: 0}
+  selectingItemSlot: {fileID: 0}
+  quantity: 0
+  throwCooldown: 2.3
+  throwKey: 323
+  useKey: 324
+  throwForce: 20
+  readyToThrow: 0
+  holdingUsable: 0
+  crosshair: {fileID: 0}
+  sceneUIManager: {fileID: 0}
 --- !u!1 &5948869679004684206
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
     public void PlayButtonPressed()
     {        
         levelToLoad = GameManager.CUTSCENESCENE_STR;
-        levelToLoad = GameManager.GAMESCENE_STR;
+        //levelToLoad = GameManager.GAMESCENE_STR;
         GameManager.LoadScene(levelToLoad);
     }
 

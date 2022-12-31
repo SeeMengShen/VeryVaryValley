@@ -10,6 +10,7 @@ public class LevelController : MonoBehaviour
 {
     public static LevelController Instance = null;
 
+    public GameObject currentActiveCamera;
     [SerializeField] private GameObject firstPersonCamera;
     [SerializeField] private GameObject thirdPersonCamera;
 
@@ -99,7 +100,7 @@ public class LevelController : MonoBehaviour
             CheckCurrentActiveCamera();
         }
 
-        if (Input.GetKeyUp(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             showMap = !showMap;
 
@@ -116,7 +117,7 @@ public class LevelController : MonoBehaviour
             map.interactable = showMap;
         }
 
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             pause = !pause;
 
@@ -141,6 +142,7 @@ public class LevelController : MonoBehaviour
             fpc.SetMainCamera(thirdPersonCamera.GetComponent<Camera>());
             firstPersonCamera.SetActive(false);
             PlayerAction.cam = thirdPersonCamera.transform;
+            currentActiveCamera = thirdPersonCamera;
         }
         else
         {
@@ -148,12 +150,14 @@ public class LevelController : MonoBehaviour
             fpc.SetMainCamera(firstPersonCamera.GetComponent<Camera>());
             thirdPersonCamera.SetActive(false);
             PlayerAction.cam = firstPersonCamera.transform;
+            currentActiveCamera = firstPersonCamera;
         }
     }
 
     public void StopControl(bool stop)
     {
-        Instance.StartCoroutine(DelayStopControl(stop));
+        stopControl = stop;
+        //Instance.StartCoroutine(DelayStopControl(stop));
     }
 
     private IEnumerator DelayStopControl(bool stop)

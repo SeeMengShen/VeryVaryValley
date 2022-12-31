@@ -17,7 +17,7 @@ public class ItemBar : MonoBehaviour
 
     private Vector3 textPosition = new Vector3(180.0f, -50f, 0.0f);
 
-    private string mouseScrWheel = "Mouse ScrollWheel";
+    private const string MOUSE_SCR_WHL = "Mouse ScrollWheel";
 
     void Awake()
     {
@@ -29,20 +29,6 @@ public class ItemBar : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    void Start()
-    {
-        /*itemSlots = new List<ItemSlot>();
-
-        for(int i = 0; i < 10; i++)
-        {
-            itemSlots.Add(this.transform.GetChild(i).transform.GetChild(0).GetComponent<ItemSlot>());
-        }
-
-        emptyItem = (Item)Resources.Load("Items/Empty");
-
-        selecting = transform.GetChild(11).gameObject;*/
 
         foreach (ItemSlot itemSlot in itemSlots)
         {
@@ -52,15 +38,20 @@ public class ItemBar : MonoBehaviour
         UpdateItemText();
     }
 
+    void Start()
+    {
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetAxis(mouseScrWheel) == 0.0f)
+        if(Input.GetAxis(MOUSE_SCR_WHL) == 0.0f)
         {
             return;
         }
 
-        if(Input.GetAxis(mouseScrWheel) > 0.0f)
+        if(Input.GetAxis(MOUSE_SCR_WHL) > 0.0f)
         {
             selectIndex--;
         }

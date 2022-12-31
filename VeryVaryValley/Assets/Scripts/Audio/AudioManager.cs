@@ -12,7 +12,6 @@ public class AudioManager : MonoBehaviour {
 
     public static AudioManager Instance = null;
 
-
     public AudioSource backgroundPlayer;
     public AudioSource effectPlayer;
 

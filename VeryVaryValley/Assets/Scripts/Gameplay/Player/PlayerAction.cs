@@ -91,7 +91,7 @@ public class PlayerAction : MonoBehaviour
 
         if (holdingUsable)
         {
-            if (Input.GetKeyUp(useKey))
+            if (Input.GetKeyDown(useKey))
             {
                 Use(CheckPointing());
             }
@@ -100,7 +100,7 @@ public class PlayerAction : MonoBehaviour
                 CheckPointing();
             }
         }
-        else if (Input.GetKey(useKey))
+        else if (Input.GetKeyDown(useKey))
         {
             if (!ItemBar.Instance.IsHoldingEmpty())
             {
@@ -213,9 +213,7 @@ public class PlayerAction : MonoBehaviour
             pointingObject.GetComponent<Collectable>().Collected();
         }
 
-
         //play gun shot
         AudioManager.Instance.PlayGunSound();
-
     }
 }

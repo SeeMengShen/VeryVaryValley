@@ -10,6 +10,8 @@ public class PlayerSight : MonoBehaviour
 
     public GameObject head;
 
+    public LayerMask layerMask;
+
     private RaycastHit hit;
     private GameObject interactable;
     private Item newItem;
@@ -43,7 +45,7 @@ public class PlayerSight : MonoBehaviour
             return;
         }
                 
-        if (Physics.Raycast(head.transform.position, transform.forward, out hit, 3.0f, 3, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(head.transform.position, transform.forward, out hit, 3.0f, layerMask, QueryTriggerInteraction.Ignore))
         {
             interactable = hit.collider.gameObject;
 
