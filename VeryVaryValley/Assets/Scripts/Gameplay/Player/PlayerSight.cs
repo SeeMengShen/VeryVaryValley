@@ -33,6 +33,7 @@ public class PlayerSight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Reset GrabGun Scriptable object boolean to non-usable item for quest purpose
         Item grabGunItem = (Item)Resources.Load(ITEM_RESOURCE_STR + GRABGUN_STR);
         grabGunItem.usable = false;
     }
@@ -45,13 +46,14 @@ public class PlayerSight : MonoBehaviour
             return;
         }
                 
+        // Raycast out from character head to check item on player sight, ignore trigger colliders
         if (Physics.Raycast(head.transform.position, transform.forward, out hit, 3.0f, layerMask, QueryTriggerInteraction.Ignore))
         {
             interactable = hit.collider.gameObject;
 
             CheckInteractable(interactable.tag);
 
-            if (Input.GetKeyUp(KeyCode.E))
+            if (Input.GetKeyUp(KeyCode.E))  // Perform various task if E is pressed
             {
                 switch (interactable.tag)
                 {
@@ -77,7 +79,7 @@ public class PlayerSight : MonoBehaviour
                 }
             }
         }
-        else
+        else        // Not looking at anything interactable
         {
             textToShow = string.Empty;
             LevelController.Instance.ShowHintText(textToShow);
@@ -85,6 +87,7 @@ public class PlayerSight : MonoBehaviour
         }
     }
 
+    // Update UI text and crosshair when looking at interactable item
     private void CheckInteractable(string objectTag)
     {
 
@@ -114,10 +117,12 @@ public class PlayerSight : MonoBehaviour
         crosshair.color = Color.magenta;
     }
 
+    // Get reference of looking collectable item and collect
     private void Collect()
     {
         newItem = (Item)Resources.Load(ITEM_RESOURCE_STR + hit.collider.gameObject.name);
 
+        // Check existence to avoid duplication
         if (!ItemBar.Instance.CheckExistence(newItem))
         {
             itemSlot = ItemBar.Instance.GetFirstEmptySlot();
@@ -131,6 +136,7 @@ public class PlayerSight : MonoBehaviour
 
         if(!newItem.throwable && !newItem.usable)                       // Not throwable and not usable (Quest Item)
         {
+            // Special hard coded condition for GrabGun quest
             if (newItem.name == GRABGUN_STR)
             {
                 newItem.usable = true;
@@ -143,7 +149,7 @@ public class PlayerSight : MonoBehaviour
         AudioManager.Instance.PlayOneShotSoundEffect(AudioManager.Instance.pickUpEffect);
     }
 
-    //grab gun only
+    // Collect without player pressing E (using GrabGun, CarParts from NPC)
     public void Collect(GameObject toCollect)
     {
         newItem = (Item)Resources.Load(ITEM_RESOURCE_STR + toCollect.name);

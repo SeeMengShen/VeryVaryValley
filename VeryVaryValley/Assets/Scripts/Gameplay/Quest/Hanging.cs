@@ -18,6 +18,7 @@ public class Hanging : MonoBehaviour
         
     }
 
+    // Only destroy itself when it is hit by stone
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.name == stoneStr)

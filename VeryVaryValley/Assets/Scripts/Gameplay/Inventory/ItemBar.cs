@@ -30,6 +30,7 @@ public class ItemBar : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // Initialize all item slots with empty object first
         foreach (ItemSlot itemSlot in itemSlots)
         {
             itemSlot.item = emptyItem;
@@ -46,12 +47,19 @@ public class ItemBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(LevelController.Instance.GetStopControl())
+        {
+            return;
+        }
+
+        
         if(Input.GetAxis(MOUSE_SCR_WHL) == 0.0f)
         {
             return;
         }
 
-        if(Input.GetAxis(MOUSE_SCR_WHL) > 0.0f)
+        // When scroll wheel is detected, change the index value
+        if (Input.GetAxis(MOUSE_SCR_WHL) > 0.0f)
         {
             selectIndex--;
         }
@@ -60,6 +68,7 @@ public class ItemBar : MonoBehaviour
             selectIndex++;
         }
 
+        // Loop back to first one if exceeded max
         if(selectIndex > itemSlots.Count - 1)
         {
             selectIndex = 0;
@@ -74,6 +83,7 @@ public class ItemBar : MonoBehaviour
         UpdateItemText();
     }
 
+    // Check existence of an object in the inventory to prevent duplication
     public bool CheckExistence(Item newItem)
     {
         foreach(ItemSlot itemSlot in itemSlots)

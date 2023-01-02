@@ -8,6 +8,7 @@ public class Throwable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //  Auto cleanup to save memory
         Destroy(gameObject, 5.0f);
     }
 

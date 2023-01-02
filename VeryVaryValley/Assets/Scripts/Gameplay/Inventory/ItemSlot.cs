@@ -23,6 +23,7 @@ public class ItemSlot : MonoBehaviour
 
     }
 
+    // Called when an item is collected
     public void AddSlotContent(Item newItem)
     {
         if(item != newItem)
@@ -39,6 +40,7 @@ public class ItemSlot : MonoBehaviour
         quantityText.text = quantity.ToString();
     }
 
+    // Called when an item is used
     public void MinusSlotContent()
     {
         quantity--;
@@ -47,7 +49,7 @@ public class ItemSlot : MonoBehaviour
         {
             quantityText.text = quantity.ToString();
         }
-        else
+        else        // last item is used
         {
             item = ItemBar.Instance.emptyItem;
 

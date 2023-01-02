@@ -39,6 +39,7 @@ public class AudioMixerManager : MonoBehaviour {
 
     public void InitAudioUI()
     {
+        // get object reference from UIManager
         masterSlider = UIManager.Instance.masterSlider;
         backgroundSlider = UIManager.Instance.backgroundSlider;
         effectSlider = UIManager.Instance.effectSlider;

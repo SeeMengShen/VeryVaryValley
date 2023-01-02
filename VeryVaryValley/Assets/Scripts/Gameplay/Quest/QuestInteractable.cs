@@ -29,6 +29,7 @@ public class QuestInteractable : MonoBehaviour
         {
             ItemBar.Instance.GetSelectingItemSlot().MinusSlotContent();
             
+            //  Special hard coded for acorn quest as a pot only takes 1 acorn
             if(gameObject.name == POT_STR)
             {
                 transform.GetChild(0).gameObject.SetActive(true);
@@ -36,6 +37,7 @@ public class QuestInteractable : MonoBehaviour
             }
             else
             {
+                // Special hard coded for trash bin
                 transform.GetChild(putIndex).gameObject.SetActive(true);
                 putIndex++;
             }
@@ -55,6 +57,7 @@ public class QuestInteractable : MonoBehaviour
         }
         else
         {
+            // Display warning message when wrong item is attempted
             LevelController.Instance.ShowWarningText(ERROR_STR);
         }
         

@@ -27,10 +27,6 @@ public class Interactable : MonoBehaviour
         {
             ShowLockUI(true);
         }
-        else
-        {
-            gameObject.tag = UNTAGGED_STR;        
-        }
     }
 
     public void Unlock()
@@ -42,6 +38,7 @@ public class Interactable : MonoBehaviour
 
         ShowLockUI(false);
         locked = false;
+        gameObject.tag = UNTAGGED_STR;
         StartCoroutine(AnimateOpen());
     }
 
@@ -62,6 +59,7 @@ public class Interactable : MonoBehaviour
         LevelController.Instance.StopControl(show);
     }
 
+    // Imitate open animation for cabinet
     IEnumerator AnimateOpen()
     {
         for(int i = 0; i < 10; i++)

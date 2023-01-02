@@ -19,6 +19,7 @@ public class AutoTalk : MonoBehaviour
         
     }
 
+    // 1 time auto talk to NPC when enters trigger
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == player)

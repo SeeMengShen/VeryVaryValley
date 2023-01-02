@@ -5,7 +5,8 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     public static GameManager Instance = null;
 
@@ -35,42 +36,54 @@ public class GameManager : MonoBehaviour {
     public const string MAINMENUSCENE_STR = "MainMenuScene";
 
 
-    public bool GameHasInitialized {
-        get {
+    public bool GameHasInitialized
+    {
+        get
+        {
             return gameHasInitialized;
         }
     }
 
     //USE THIS LOAD SCENE AND DONT USE SCENE MANAGER
-    public static void LoadScene(string sceneName) {
+    public static void LoadScene(string sceneName)
+    {
         stackHistory.Push(GetActiveScene().name);
 
         //change bgm
-        if (sceneName == CUTSCENESCENE_STR) {
+        if (sceneName == CUTSCENESCENE_STR)
+        {
             AudioManager.Instance.ChangeBackgroundMusic(AudioManager.inGameBGMID);
-        } else if (sceneName == ENDINGCUTSCENESCENE_STR) {
-            //AudioManager.Instance.backgroundPlayer.Stop();
+        }
+        else if (sceneName == ENDINGCUTSCENESCENE_STR)
+        {
             AudioManager.Instance.ChangeBackgroundMusic(AudioManager.endingBGMID);
-        } else if (sceneName == MAINMENUSCENE_STR) {
+        }
+        else if (sceneName == MAINMENUSCENE_STR)
+        {
             AudioManager.Instance.ChangeBackgroundMusic(AudioManager.mainMenuBGMID);
         }
 
-       
+
         SceneManager.LoadScene(sceneName);
     }
 
-    void Awake() {
-        if (Instance == null) {
+    void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
         }
-        else if (Instance != this) {
+        else if (Instance != this)
+        {
             Destroy(gameObject);
             gameHasInitialized = true;
         }
     }
 
-    void Start() {
-        if (!gameHasInitialized) {
+    void Start()
+    {
+        if (!gameHasInitialized)
+        {
 
             //dont destory game manager and ui manager
             string[] dontDestroyList = new string[] { "UIManager", "AudioMixerManager", "AudioManager" };
@@ -83,22 +96,20 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private static UnityEngine.SceneManagement.Scene GetActiveScene() {
+    private static UnityEngine.SceneManagement.Scene GetActiveScene()
+    {
         return UnityEngine.SceneManagement.SceneManager.GetActiveScene();
     }
 
 
-    private void DontDestroyOnLoadList(string[] gameObjectList) {
+    private void DontDestroyOnLoadList(string[] gameObjectList)
+    {
 
         DontDestroyOnLoad(gameObject);
 
-        foreach (string gameObjectElement in gameObjectList) {
+        foreach (string gameObjectElement in gameObjectList)
+        {
             DontDestroyOnLoad(GameObject.Find(gameObjectElement));
         }
-    }
-
-
-    public void SkipScene(string sceneName) {
-        //LoadScene(sceneName);
     }
 }

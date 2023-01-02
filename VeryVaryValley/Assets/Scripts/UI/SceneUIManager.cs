@@ -36,6 +36,7 @@ public class SceneUIManager : MonoBehaviour
         
     }
 
+    // Show respective UI when holding different items
     public void ShowKeyUI()
     {
         powerBar.alpha = 0.0f;
@@ -59,6 +60,7 @@ public class SceneUIManager : MonoBehaviour
         }
     }
 
+    //  Refresh UI of power bar when its ready
     public void ShowReady(bool ready)
     {
         colorHolder = Color.clear;

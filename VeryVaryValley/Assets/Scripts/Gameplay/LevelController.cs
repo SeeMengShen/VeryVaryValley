@@ -94,12 +94,13 @@ public class LevelController : MonoBehaviour
     void Update()
     {
 
-        //Toggle Camera View
+        // Toggle Camera View
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             CheckCurrentActiveCamera();
         }
 
+        // Show Map
         if (Input.GetKeyDown(KeyCode.M))
         {
             showMap = !showMap;
@@ -117,6 +118,7 @@ public class LevelController : MonoBehaviour
             map.interactable = showMap;
         }
 
+        // Pause
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pause = !pause;
@@ -157,13 +159,6 @@ public class LevelController : MonoBehaviour
     public void StopControl(bool stop)
     {
         stopControl = stop;
-        //Instance.StartCoroutine(DelayStopControl(stop));
-    }
-
-    private IEnumerator DelayStopControl(bool stop)
-    {
-        yield return new WaitForEndOfFrame();
-        stopControl = stop;
     }
 
     public bool GetStopControl()
@@ -171,6 +166,7 @@ public class LevelController : MonoBehaviour
         return stopControl;
     }
 
+    // Hard coded UI assignment to UIManager Singleton from previous scene
     private void AssignUI()
     {
         mainQuestTitle = mainQuestPanel.transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -219,6 +215,7 @@ public class LevelController : MonoBehaviour
         collectable.SetActive(true);
     }
 
+    // Charging in a loop
     public void PlayerCharging()
     {
         if (increase)
@@ -338,9 +335,6 @@ public class LevelController : MonoBehaviour
             sideQuestProgressStr.color = Color.white;
             sideQuestStatus.text = inProgStr;
         }
-
-
-
     }
 
     public void UpdateMainQuestStatus(bool done)

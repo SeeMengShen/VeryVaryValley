@@ -87,17 +87,19 @@ public class PlayerAction : MonoBehaviour
             }
         }        
 
+        //  Refresh the UI of the power bar
         sceneUIManager.ShowReady(readyToThrow);
 
+        //  If player is selecting usable item in inventory
         if (holdingUsable)
         {
-            if (Input.GetKeyDown(useKey))
+            if (Input.GetKeyDown(useKey))   // Shooting invoked
             {
-                Use(CheckPointing());
+                Use(CheckPointing());       // Get reference of pointing objects to collect
             }
             else
             {
-                CheckPointing();
+                CheckPointing();            // Just check pointing objects
             }
         }
         else if (Input.GetKeyDown(useKey))
@@ -149,6 +151,7 @@ public class PlayerAction : MonoBehaviour
         LevelController.Instance.ResetPowerBar();
     }
 
+    //  To cope with the animation delay
     IEnumerator ThrowDelay()
     {
         FirstPersonController.animator.SetBool(THROWING_ANIM_BOOL, true);
@@ -159,6 +162,7 @@ public class PlayerAction : MonoBehaviour
         AudioManager.Instance.PlayOneShotSoundEffect(AudioManager.Instance.throwingEffect);
     }
 
+    //  Check holding item type to update objectToThrow for throwing or holdingUsable boolean
     public void UpdateSelectingItem()
     {
         selectingItemSlot = ItemBar.Instance.GetSelectingItemSlot();
@@ -185,6 +189,7 @@ public class PlayerAction : MonoBehaviour
         sceneUIManager.ShowKeyUI();
     }
 
+    //  Raycast out to check pointing object
     private GameObject CheckPointing()
     {
         RaycastHit hit;
@@ -205,6 +210,7 @@ public class PlayerAction : MonoBehaviour
         return gameObject;
     }
 
+    // Collect object that was pointed by player
     private void Use(GameObject pointingObject)
     {
         if (pointingObject.tag == ITEM_TAG)

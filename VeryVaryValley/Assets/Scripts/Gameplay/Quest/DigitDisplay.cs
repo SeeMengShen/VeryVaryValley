@@ -35,6 +35,7 @@ public class DigitDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Update password when minute changes
         if(lastMinute != System.DateTime.Now.Minute)
         {
             UpdatePassword();

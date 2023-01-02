@@ -18,6 +18,7 @@ public class RunAway : MonoBehaviour
         
     }
 
+    // When an object enters the trigger, run with the opposite direction of the moving object
     void OnTriggerStay(Collider other)
     {
         Vector3 distance = transform.position - other.transform.position;

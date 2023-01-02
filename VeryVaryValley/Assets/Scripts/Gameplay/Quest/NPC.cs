@@ -36,25 +36,30 @@ public class NPC : MonoBehaviour
 
     public void Talk()
     {
+        //If there are still quests pending behind and its not empty
         if (quest.Length > currentQuestIndex && quest.Length != 0)
         {
-            if (quest[currentQuestIndex].done)
+            if (quest[currentQuestIndex].done) // If current quest is done
             {
                 if (currentQuestIndex < dialogue.Length - 1)
                 {
-                    currentQuestIndex++;
+                    currentQuestIndex++;        // Proceed to next quest
                 }
             }
 
+            //  Hide side quest panel when talking
             LevelController.Instance.sideQuestPanel.alpha = 0.0f;
             LevelController.Instance.sideQuestPanel.blocksRaycasts = false;
 
+            //If there are still quests pending behind
             if (quest.Length > currentQuestIndex)
             {
+                // Initialize the quest to display on UI
                 LevelController.Instance.InitSideQuest(quest[currentQuestIndex]);
             }
             else
             {
+                // No more quest, then give reward if not given yet
                 if (!gaveReward)
                 {
                     GiveReward();
@@ -64,17 +69,20 @@ public class NPC : MonoBehaviour
             }
         }
 
+        //  Assign and activate dialogues
         LevelController.Instance.AssignDialogue(dialogue[currentQuestIndex]);
         LevelController.Instance.dialogueController.ResetAndStart();
         LevelController.Instance.ActivateDialogue(true);
         LevelController.Instance.StopControl(true);
     }
 
+    // Directly add the reward to the player's inventory
     private void GiveReward()
     {
         player = LevelController.Instance.currentActiveCamera.GetComponent<PlayerSight>();
         player.Collect(reward);
 
+        //  Special hard coded for crow quest as we need to give the quest items to NPC
         if (gameObject.name == crowNPC)
         {
             Item crowItem = (Item)Resources.Load("Items/Crow");
