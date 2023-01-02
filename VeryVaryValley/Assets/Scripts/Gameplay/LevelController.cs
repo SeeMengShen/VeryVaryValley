@@ -55,9 +55,10 @@ public class LevelController : MonoBehaviour
     private TextMeshProUGUI sideQuestStatus;
     public bool acceptQuest = true;
 
-    //cursor apper, stopControl == true
+    //cursor appear, stopControl == true
     private bool stopControl;
     public bool pause;
+    public bool showingUI;
 
     private string doneStr = "Done";
     private string inProgStr = "In Progress";
@@ -93,6 +94,31 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Instance.fpc.m_MouseLook.SetCursorLock(!stopControl);
+
+        // do not update when UI is showing
+        if(showingUI)
+        {
+            return;
+        }
+
+        // Pause
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pause = !pause;
+
+            if (pause)
+            {
+                UIManager.Instance.Pause();
+            }
+            else
+            {
+                UIManager.Instance.Resume();
+            }
+        }
+
+        // Call again to check after Esc is detected
+        Instance.fpc.m_MouseLook.SetCursorLock(!stopControl);
 
         // Toggle Camera View
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -117,23 +143,11 @@ public class LevelController : MonoBehaviour
             map.blocksRaycasts = showMap;
             map.interactable = showMap;
         }
+    }
 
-        // Pause
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            pause = !pause;
-
-            if (pause)
-            {
-                UIManager.Instance.Pause();
-            }
-            else
-            {
-                UIManager.Instance.Resume();
-            }
-        }
-
-        Instance.fpc.m_MouseLook.SetCursorLock(!stopControl);
+    public void SetIsShowingUI(bool show)
+    {
+        showingUI = show;
     }
 
     private void CheckCurrentActiveCamera()
@@ -278,6 +292,7 @@ public class LevelController : MonoBehaviour
         dialoguePanel.interactable = active;
 
         stopControl = active;
+        showingUI = active;
     }
 
     public void InitSideQuest(Quest quest)

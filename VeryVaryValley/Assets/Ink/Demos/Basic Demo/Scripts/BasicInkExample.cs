@@ -65,7 +65,8 @@ public class BasicInkExample : MonoBehaviour {
 				//END STORY HERE
 				LevelController.Instance.ActivateDialogue(false);
 				LevelController.Instance.AssignDialogue(null);
-				LevelController.Instance.StopControl(false);
+				//LevelController.Instance.StopControl(false);
+				//LevelController.Instance.SetIsShowingUI(false);
 
 				if(LevelController.Instance.currentSideQuest != null)
                 {

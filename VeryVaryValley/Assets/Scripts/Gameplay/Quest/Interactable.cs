@@ -57,6 +57,7 @@ public class Interactable : MonoBehaviour
         lockUI.interactable = show;
 
         LevelController.Instance.StopControl(show);
+        LevelController.Instance.SetIsShowingUI(show);
     }
 
     // Imitate open animation for cabinet

@@ -73,7 +73,8 @@ public class NPC : MonoBehaviour
         LevelController.Instance.AssignDialogue(dialogue[currentQuestIndex]);
         LevelController.Instance.dialogueController.ResetAndStart();
         LevelController.Instance.ActivateDialogue(true);
-        LevelController.Instance.StopControl(true);
+        //LevelController.Instance.StopControl(true);
+        //LevelController.Instance.SetIsShowingUI(true);
     }
 
     // Directly add the reward to the player's inventory
